@@ -54,10 +54,15 @@ contract Fallback {
 Challenge wants us to own the contract and withdraw all contribution from the contract. For this purpose, we should contribute this contract and call ```receive()``` function. In this way, we will own of the contract and withdraw all contribution.
 
 ## Subverting
+
+Who is owner?
+
 ```shell
 await contract.owner()
 "0x9CB391dbcD447E645D6Cb55dE6ca23164130D008"
 ```
+The first thing to solve this challenge is contribute some wei.
+
 ```shell
 await contract.contribute({value: 4})
 ```
