@@ -57,7 +57,7 @@ await contract.Fal1out()
 ```
 Check again who owner is.
 
-```
+```shell
 await contract.owner()
 '0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b'
 ```
