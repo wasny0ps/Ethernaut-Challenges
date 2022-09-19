@@ -2,7 +2,7 @@
 
 ## Exploration
 
-Given contract.
+Given contract from Ethernaut.
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -51,6 +51,8 @@ contract Fallback {
   }
 }
 ```
+Challenge wants us to own the contract and withdraw all contribution from the contract. For this purpose, we should contribute this contract and call ```receive()``` function. In this way, we will own of the contract and withdraw all contribution.
+
 ## Subverting
 ```shell
 await contract.owner()
@@ -85,6 +87,8 @@ length: 2
 ```
 ### JSON RPC ETH
 
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Fallback/img/"jsonrpc.png">
+
 ```shell
 await contract.sendTransaction({value: 1})
 ```
@@ -98,6 +102,6 @@ await contract.getContribution()
 ```
 And submit instance.
 
-<img src="">
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Fallback/img/submit.png">
 
 **_by wasny0ps_**
