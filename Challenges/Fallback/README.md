@@ -91,6 +91,13 @@ await contract.sendTransaction({value: 1})
 ```shell
 await contract.owner()
 "0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b"
+
+await contract.withdraw()
+
+await contract.getContribution()
 ```
+And submit instance.
+
+<img src="">
 
 **_by wasny0ps_**
