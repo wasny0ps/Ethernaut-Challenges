@@ -72,7 +72,7 @@ Check owner of the contract before we deploy the attack contractç
 await contract.owner()
 '0x0b6F6CE4BCfB70525A31454292017F640C10c768'
 ```
-<img src="">
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Telephone/img/metamask.png">
 
 Now check the owner again and we solved again.
 ```solidity
