@@ -11,8 +11,7 @@
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel7.svg" height="120"> |[**Force**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Force)|**Level 7**|**Medium**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel8.svg" height="120"> |[**Vault**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Vault)|**Level 8**|**Easy**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel9.svg" height="120"> |[**King**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/King)|**Level 9**|**Medium**|**RCP**|
-| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel10.svg" height="120"> |[**Re-entrancy**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Re-entracy
-)|**Level 10**|**Medium**|**RCP**|
+| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel10.svg" height="120"> |[**Re-entrancy**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Re-entracy)|**Level 10**|**Medium**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel11.svg" height="120"> |[**Elevator**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Elevator)|**Level 11**|**Easy**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel12.svg" height="120"> |[**Privacy**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Privacy)|**Level 12**|**Hard**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel13.svg" height="120"> |[**Gatekeeper One**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Gatekeeper%20One)|**Level 13**|**Medium**|**RCP**|
