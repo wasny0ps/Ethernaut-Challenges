@@ -79,4 +79,9 @@ await instance
 '0xf501D64dC0eff953cddCD8270f20f711A7aCF31E'
 ```
 Deploy contract with contract address.
-<img src="">
+
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Delegation/img/deploy.png">
+
+Click attack button.
+
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Delegation/img/transaction.png">
