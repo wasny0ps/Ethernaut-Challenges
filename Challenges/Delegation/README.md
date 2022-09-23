@@ -50,7 +50,7 @@ If we scrutinise contracts, there is only variable named owner in the **Delagate
 
 In the fallback function there is calling some data from Delegate contract with ```delegatecall``` method. Shortly, **delegate** is a low level function similar to **call**. When contract **Delegation** executes delegatecall to contract **Delegate**, **Delegate**'s code is executedwith contract **Delegation**s storage, **_msg.data_**.
 
-For this part form of hacking, I want to explain what I am doing. In first, I must call fallback() from Delegation contract to trigger vulnerability and it will call pwn() function from Delegate contract. In other saying, after created variable named pwn and encode it with keccak256, I am calling pwn() function with **msg.data** when I use ```sendTransaction``` method. The truth of the matter is that the delegatecall function returns a **storage value** from the called address, so when we call the pwn function, the contract will update us as the new owner, which will solve the challenge.
+For this part form of hacking, I want to explain what I am doing. In first, I must call fallback() from Delegation contract to trigger vulnerability and it will call pwn() function from Delegate contract. In other saying, after created variable named pwn and encode it with **keccak256**, I am calling pwn() function with **msg.data** when I use ```sendTransaction``` method. The truth of the matter is that the delegatecall function returns a **storage value** from the called address, so when we call the pwn function, the contract will update us as the **new owner**, which will solve the challenge.
 
 <img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Delegation/img/console.png">
 
