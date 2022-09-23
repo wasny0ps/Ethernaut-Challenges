@@ -52,6 +52,6 @@ In the fallback function there is calling some data from Delegate contract with 
 
 For this part form of hacking, I want to explain what I am doing. In first, I must call fallback() from Delegation contract to trigger vulnerability and it will call pwn() function from Delegate contract. In other saying, I am calling pwn() function with **msg.data** when I use ```sendTransaction``` method. The truth of the matter is that the delegatecall function returns a **storage value** from the called address, so when we call the pwn function, the contract will update us as the new owner, which will solve the challenge.
 
-```shell
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Delegation/img/console.png">
 
-```
+**_by wasny0ps_**
