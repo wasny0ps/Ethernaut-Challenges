@@ -39,3 +39,13 @@ contract Delegation {
   }
 }
 ```
+
+Challenge's message.
+
+> The goal of this level is for you to claim ownership of the instance you are given.
+
+If we scrutinise contracts, there is only variable named owner in the **Delagate** contract and in the **Delagation** contract has owner and delegate variable. What is more , there is  a ```fallback()``` function which is exploitable. As long as we call fallback function with Delegate's function name, we can change some value. :) Let's do it!
+
+## Subverting
+
+In the fallback function there is calling some data from Delegate contract with ```delegatecall``` method. Shortly, **delegate** is a low level function similar to **call**. When contract **Delegation** executes delegatecall to contract **Delegate**, **Delegate**'s code is executedwith contract **Delegation**s storage, msg.data.
