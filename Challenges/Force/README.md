@@ -47,4 +47,5 @@ contract Attack{
 }
 ```
 
-In the starting point, identify the contart address which is our target. Afterwards, send ether to target contract with ```selfdestruct()``` method. With help of selfdestruct, contracts can be deleted from the blockchain.
+In the starting point, identify the contart address which is our target. Afterwards, send ether to target contract with ```selfdestruct()``` method. With help of selfdestruct, contracts can be deleted from the blockchain. Also, selfdestruct sends all remaining ether stored in the contract to a designated address.
+
