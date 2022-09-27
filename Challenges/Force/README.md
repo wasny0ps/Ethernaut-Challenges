@@ -47,5 +47,19 @@ contract Attack{
 }
 ```
 
-In the starting point, identify the contart address which is our target. Afterwards, send ether to target contract with ```selfdestruct()``` method. With help of selfdestruct, contracts can be deleted from the blockchain. Also, selfdestruct sends all remaining ether stored in the contract to a designated address.
+In the starting point, identify the contart address which is our target. Afterwards, send ether to target contract with ```selfdestruct()``` method. With help of selfdestruct, contracts can be deleted from the blockchain and selfdestruct **sends all remaining ether stored in the contract** to a designated address. For this reason,
+a malicious contract can use **selfdestruct** to force sending Ether to any contract.
 
+Deploy and call attack function.
+
+```shell
+await instance
+'0x2C5eB5feC2C02C4bAba25DfD9e9E9092967Bde51'
+```
+
+<img src="">
+
+```shell
+await getBalance(instance)
+'0.00000000000000001'
+```
