@@ -62,6 +62,9 @@ Deploy and call attack function.
 
 <img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Force/img/transaction.png">
 
+
+Check instance's balance. Solved the challenge.
+
 ```shell
 await getBalance(instance)
 '0.00000000000000001'
