@@ -6,7 +6,7 @@
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel3.svg" height="120"> |[**Coin Flip**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Coin%20Flip)|**Level 3**|**Easy**|**Randomness In Chain**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel4.svg" height="120"> |[**Telephone**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Telephone)|**Level 4**|**Easy**|**tx.origin Attacks**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel5.svg" height="120"> |[**Token**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Token)|**Level 5**|**Easy**|**Integer Overflow & Underflow**|
-| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel6.svg" height="120"> |[**Delegation**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Delegation)|**Level 6**|**Easy**|**RCP**|
+| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel6.svg" height="120"> |[**Delegation**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Delegation)|**Level 6**|**Easy**|**delegatecall()**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel7.svg" height="120"> |[**Force**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Force)|**Level 7**|**Medium**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel8.svg" height="120"> |[**Vault**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Vault)|**Level 8**|**Easy**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel9.svg" height="120"> |[**King**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/King)|**Level 9**|**Medium**|**RCP**|
