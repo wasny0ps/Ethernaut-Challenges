@@ -78,3 +78,6 @@ contract Attack{
 }
 ```
 Firstly, get our target contract address. Then set blockValue and choice as in target contract. And then send our guess to flip() function in the target contract.
+
+
+**_by wasny0ps_**
