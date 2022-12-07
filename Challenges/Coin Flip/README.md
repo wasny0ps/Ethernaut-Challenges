@@ -89,6 +89,8 @@ Deploy an attack contract.
 
 And then, call **flip()** function ten times. After tthat, we will passed this challenge.
 
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Coin%20Flip/img/start.png">
 
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Coin%20Flip/img/finished.png">
 
 **_by wasny0ps_**
