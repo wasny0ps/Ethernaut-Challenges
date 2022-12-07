@@ -67,7 +67,7 @@ Check instance's balance. Solved the challenge.
 
 ```shell
 await getBalance(instance)
-'0.00000000000000001'
+'0.00000000000000010'
 ```
 
 **_by wasny0ps_**
