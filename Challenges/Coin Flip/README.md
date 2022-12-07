@@ -83,5 +83,12 @@ Firstly, get our target contract address. Then set blockValue and choice as in t
 await contract.address
 '0x24Aa95c4f7bf90BAa33ec67698f5ADc64B0DB551'
 ```
+Deploy an attack contract.
+
+<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Coin%20Flip/img/deploy.png">
+
+And then, call **flip()** function ten times. After tthat, we will passed this challenge.
+
+
 
 **_by wasny0ps_**
