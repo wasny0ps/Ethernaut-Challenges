@@ -37,6 +37,9 @@ Each smart contract running in the Ethereum Virtual Machine (EVM) maintains stat
 
 <img src="https://programtheblockchain.com/storage/storage.png">
 
+For example, we have a basic contract called **StorageTest** which helps us to understand how smart contract's storage works.
+
+
 ```solidity
 contract StorageTest {
     uint256 a;
