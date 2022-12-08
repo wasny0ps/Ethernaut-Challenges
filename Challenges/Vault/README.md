@@ -53,7 +53,7 @@ In the above code:
 
 <img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Vault/img/storage.png">
 
-[More about Smart Contract's Storage](https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/)
+More about  [Smart Contract's Storage](https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/)
 
 ## Accessing Private Variabes In Storage
 
