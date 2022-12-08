@@ -77,4 +77,4 @@ await contract.locked()
 false
 ```
 
-**_by wasnyps_**
+**_by wasny0ps_**
