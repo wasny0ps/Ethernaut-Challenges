@@ -48,8 +48,8 @@ contract StorageTest {
 ```
 
 In the above code:
-+ ```a``` is stored at slot 0. 
-+ ```b``` is stored at slot 1.
++ ```a``` is stored at **slot 0**. 
++ ```b``` is stored at **slot 1**.
 
 <img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Vault/img/storage.png">
 
