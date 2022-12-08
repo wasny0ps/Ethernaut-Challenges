@@ -45,6 +45,8 @@ contract StorageTest {
 ```
 
 In the above code:
++ ```a``` is stored at slot 0. 
++ ```b``` is stored at slot 1.
 
 
 ## Accessing Private Variabes In Storage
