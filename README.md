@@ -13,7 +13,7 @@
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel10.svg" height="120"> |[**Re-entrancy**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Re-entracy)|**Level 10**|**Medium**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel11.svg" height="120"> |[**Elevator**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Elevator)|**Level 11**|**Easy**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel12.svg" height="120"> |[**Privacy**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Privacy)|**Level 12**|**Hard**|**RCP**|
-| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel13.svg" height="120"> |[**Gatekeeper One**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Gatekeeper%20One)|**Level 13**|**Medium**|**RCP**|
+| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel13.svg" height="120"> |[**Gatekeeper One**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Gatekeeper%20One)|**Level 13**|**Medium**|**RCP**|<!--
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel14.svg" height="120"> |[**Gatekeeper Two**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Gatekeeper%20Two)|**Level 14**|**Medium**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel15.svg" height="120"> |[**Naught Coin**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Naught%20Coin)|**Level 15**|**Medium**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel16.svg" height="120"> |[**Preservation**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Preservation)|**Level 16**|**Hard**|**RCP**|
@@ -26,4 +26,4 @@
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel23.svg" height="120"> |[**Dex Two**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Dex%20Two)|**Level 23**|**Easy**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel24.svg" height="120"> |[**Puzzle Wallet**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Puzzle%20Wallet)|**Level 24**|**Hard**|**RCP**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel25.svg" height="120"> |[**Motorbike**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Motorbike)|**Level 25**|**Medium**|**RCP**|
-| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel26.svg" height="120"> |[**Double Entry Point**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Double%20Entry%20Point)|**Level 26**|**Easy**|**RCP**|
+| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel26.svg" height="120"> |[**Double Entry Point**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Double%20Entry%20Point)|**Level 26**|**Easy**|**RCP**|-->
