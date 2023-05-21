@@ -46,7 +46,7 @@ As with every challenge, this contract has some potential issues. One of these i
 
 # Subverting
 
-Before talking about my attack contract, I want to explain some topics. If you know about the vulnerability of uncheck calls returns value, you would skip this part.
+Before talking about my attack contract, I want to explain some topics. If you know about the vulnerability of **uncheck calls returns value**, you would skip this part.
 
 ### Calls In Solidity 
 
@@ -56,17 +56,15 @@ There are a number of ways of performing external calls in Solidity. Sending eth
   - ``send`` : (2300 gas, returns bool)
   - ``call`` : (forward all gas or set gas, returns bool)
 
-this methods. Here we can see that when we use send or call to send ether or perform any transactions, it returns a boolean value i.e. true or false.
+this methods. Here we can see that when we use to send or call to send ether or perform any transactions, it returns a boolean value i.e. true or false. Unless you check this return value, you will face something critical vulnerability.
 
-### Security Issue
+### Security Issue : Uncheck Calls Returns Value
 
- The ``call`` and ``send`` functions return a boolean indicating whether the call succeeded or failed. As a result, if the call return value is not checked, execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behavior in the subsequent program logic.
+ The ``call`` and ``send`` functions return a boolean indicating whether the call succeeded or failed. As a result, if the call return value is not checked, execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behavior in the subsequent program logic. Here is a contract which too has an example of this problem.
  
-
  ```solidity
  
 contract Lotto {
-
     bool public payedOut = false;
     address public winner;
     uint public winAmount;
@@ -88,7 +86,7 @@ contract Lotto {
  ```
  This represents a Lotto-like contract, where a ``winner`` receives ``winAmount`` of ether, which typically leaves a little left over for anyone to withdraw.
 
-The vulnerability exists on sendToWinner() function, where a send is used without checking the response. In this trivial example, a winner whose transaction fails (either by running out of gas or by being a contract that intentionally throws in the fallback function) allows ``payedOut`` to be set to ``true`` regardless of whether ether was sent or not. In this case, **anyone can withdraw the winner’s winnings via the withdrawLeftOver function**.
+The vulnerability exists on sendToWinner() function, where a send is used without checking the response. In this example, a winner whose transaction fails (either by running out of gas or by being a contract that intentionally throws in the fallback function) allows ``payedOut`` to be set to ``true`` regardless of whether ether was sent or not. In this case, **anyone can withdraw the winner’s winnings via the withdrawLeftOver function**.
 
 ## Attack Contract
 
@@ -114,8 +112,9 @@ contract Attack{
 }
 ```
 
-First thing first is as always solidity version and import our target contract's file into attack contract. After that, get the instance of target contract and call it with sending more than king's prize in the constructor. When the ``call`` method works, the target contract sends ether to our contract and our fallback() function revert to transaction. In this way, we'll stay king of the target contract every time.
+First thing first is as always solidity version and import our target contract's file into attack contract. After that, get the instance of target contract and call it with sending more than king's prize in the constructor. When the ``call`` method works, the target contract will send ether to ex king's address and updated the attack contract as new king. Also, when someone wants to be a new king of target contract, he/she won't be a new king because of our fallback() function will have blocked this process. 
 
+To explain more clearly, if the target contract change to kingship as different from attack contract, it will send ether to this contract but in the fallback() will have reverted to transaction. In this way, we'll stay king of the target contract every time.
 
 ### Attack Senario
 
@@ -141,7 +140,7 @@ words
 : 
 Object
 ```
-The king's prize is 13008896. Let's convert to ether form.
+The king's prize is 13008896 wei. Let's convert to ether form.
 
 ```shell
 await web3.utils.fromWei('13008896', 'ether')
