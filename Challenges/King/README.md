@@ -118,36 +118,30 @@ To explain more clearly, if the target contract change to kingship as different 
 
 ### Attack Senario
 
+Check the king of target contarct.
+
+```shell
+await contract._king()
+'0x3049C00639E6dfC269ED1451764a046f7aE500c6'
+```
+
 Check the king's prize.
 
 ```shell
 
-await contract.prize()
-i {negative: 0, words: Array(3), length: 2, red: null}
-length
-: 
-2
-negative
-: 
-0
-red
-: 
-null
-words
-: 
-(3) [13008896, 14901161, boş]
-[[Prototype]]
-: 
-Object
+fromWei(await contract.prize())
+'0.001'
+
 ```
-The king's prize is 13008896 wei. Let's convert to ether form.
+When we deploy the attack contract, we must send higher than this price. It equals to 1000000000000000 wei. Let's send 2000000000000000 wei to attack contract's constructor.
+
+<img src="">
+
+And we get kingship of the contract forever. As ponzi getsXD
 
 ```shell
-await web3.utils.fromWei('13008896', 'ether')
-'0.000000000013008896'
+await contract._king()
+'0xE27F0dB592D69A14f5FD26ba434056e22C375388'
 ```
-When we deploy the attack contract, we must send higher than this price.
-
-
 
 **_by wasny0ps_**
