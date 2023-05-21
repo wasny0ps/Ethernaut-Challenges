@@ -144,4 +144,9 @@ await contract._king()
 '0xE27F0dB592D69A14f5FD26ba434056e22C375388'
 ```
 
+Challange's message.
+
+> Most of Ethernaut's levels try to expose (in an oversimplified form of course) something that actually happened — a real hack or a real bug.
+In this case, see: King of the Ether and King of the Ether Postmortem
+
 **_by wasny0ps_**
