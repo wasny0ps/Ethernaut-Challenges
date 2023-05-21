@@ -133,9 +133,9 @@ fromWei(await contract.prize())
 '0.001'
 
 ```
-When we deploy the attack contract, we must send higher than this price. It equals to 1000000000000000 wei. Let's send 2000000000000000 wei to attack contract's constructor.
+When we deploy the attack contract, we must send higher than this price. It equals to 1000000000000000 wei. Let's send 2000000000000000 wei to attack contract's constructor and deploy it.
 
-<img src="">
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/King/src/deploy.png"></p>
 
 And we get kingship of the contract forever. As ponzi getsXD
 
