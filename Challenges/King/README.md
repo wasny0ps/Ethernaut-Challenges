@@ -141,13 +141,13 @@ words
 : 
 Object
 ```
-The king's prize is 13008896. Let's convert to wei form.
+The king's prize is 13008896. Let's convert to ether form.
 
 ```shell
 await web3.utils.fromWei('13008896', 'ether')
 '0.000000000013008896'
 ```
-When we deploy the attack contract, we must send higher than this wei.
+When we deploy the attack contract, we must send higher than this price.
 
 
 
