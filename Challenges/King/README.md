@@ -88,6 +88,31 @@ contract Lotto {
 
 The vulnerability exists on sendToWinner() function, where a send is used without checking the response. In this example, a winner whose transaction fails (either by running out of gas or by being a contract that intentionally throws in the fallback function) allows ``payedOut`` to be set to ``true`` regardless of whether ether was sent or not. In this case, **anyone can withdraw the winner’s winnings via the withdrawLeftOver function**.
 
+### Prevention
+
+Actually, this vulnerability easily fix it. The only thing must to do is check the returns value of the process and set the gas limit of transaction. Here is basic example of this solution.
+
+```solidity
+
+// Vulnerable Code
+
+  function Transfer(address _a)public{
+      (bool success, bytes memory data) = _a.call{value: msg.value,gas: 5000}();
+  }
+
+```
+
+```solidity
+
+// Safe Code
+
+function Transfer(address _a)public{
+      (bool success, bytes memory data) = _a.call{value: msg.value,gas: 5000}();
+      require(success,"Transfer failed");
+  }
+
+```
+As you see in the contracts, just require check and gas limit resolve the problem.
 ## Attack Contract
 
 Here is my attack contract.
@@ -99,11 +124,8 @@ import './King.sol';
 
 contract Attack{
 
-    King target;
-
     constructor(address payable _target) payable{
-        target = King(_target);
-        address(target).call{value: msg.value}("");
+        address(_target).call{value: msg.value}("");
     }
 
     fallback()external{
