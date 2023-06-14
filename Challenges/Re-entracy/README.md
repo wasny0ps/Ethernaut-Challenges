@@ -93,5 +93,10 @@ We learned entire amouunt in target contract as **0.001 ether**. Let's convert i
 
 ```shell
 await web3.utils.toWei('0.001','ether')
-'1000000000000000
+1000000000000000
 ```
+After converting it to wei, it's time to explain the attack contract. First of all, this contract is a little bit different than other attack contracts. Because we used the **interface()** method to interact with other contracts easily. Also, before you use the interface, you must add into the interface method the same functions which are in the contract that we want to interact with. Otherwise, you will get an error. That's why, we use an interface to interact with the target contract. After that, get an instance of the target contract with enter the target contract's address in the constructor. 
+
+In the **attack()** contract, it calls donate function and adds some value to our address's balance. In the next step, get ether back from the target contract. When the target contract sends **msg.value** to our attack contract, our **receive()** function welcomes the transaction. And then it calls **withdraw()** function again and again until target's balance less equal than 0.001 ether. While this process, target contract won't be updated the new balance. Thus, we get all money from the target contract. 🤑 
+
+Let's bum out. Deploy the attack contract.
