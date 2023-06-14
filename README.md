@@ -1,6 +1,6 @@
 # Ethernaut Challenges
 | Challenge | Writeup | Level | Diffuculity | Key Field |
-| --- | --- | --- | --- | ---|
+| :---: | :---: | :---: | :---: | :---:|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel1.svg" height="120"> |[**Fallback**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Fallback)|**Level 1**|**Easy**|**JSON RCP / External Calls**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel2.svg" height="120"> |[**Fallout**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Fallout)|**Level 2**|**Easy**|**Employee Smart Contracts**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel3.svg" height="120"> |[**Coin Flip**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Coin%20Flip)|**Level 3**|**Easy**|**Randomness In Chain**|
