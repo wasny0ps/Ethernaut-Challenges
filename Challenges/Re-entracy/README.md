@@ -50,4 +50,4 @@ We have a basic smart contract that performs the banking function. The first thi
 
 When we look at the target code from the hacker's perspective, we can clearly show in the withdraw function; the contract updated the balance after sending the amount to the user's address. What's wrong? In the design pattern, devs might think that contract always sends the amount to the user balance only once. Hereby, updating works correctly. On the other hand, if we abuse this case to send ether to our address more than once, what will happen?
 
-The entire amount in the contract will be transferred to the attacker's account. Brainful, isn't it? I explained this vulnerebility so detailly in my (reentrancy repo.)["https://github.com/wasny0ps/Reentrancy"]
+The entire amount in the contract will be transferred to the attacker's account. Brainful, isn't it? I explained this vulnerebility so detailly in my [reentrancy repo.]("https://github.com/wasny0ps/Reentrancy")
