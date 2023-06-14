@@ -104,8 +104,16 @@ Let's bum out. Deploy the attack contract.
 <img width="300" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Re-entracy/img/deploy.png">
 
 Call attack function with sending 1000000000000000 wei.
-<img width="300" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Re-entracy/img/attack.png">
 
-And show our hack.
+<img width="200" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Re-entracy/img/attack.png">
+
+And [show our hack](https://sepolia.etherscan.io/tx/0xdbaaf42d197de637ed949abc2580b89086e65c34d8135b64f1f2634816cb34fb)!
 
 <img width="300" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Re-entracy/img/result.png">
+
+Challenge's message:
+>In order to prevent re-entrancy attacks when moving funds out of your contract, use the Checks-Effects-Interactions pattern being aware that call will only return false without interrupting the execution flow. Solutions such as ReentrancyGuard or PullPayment can also be used. transfer and send are no longer recommended solutions as they can potentially break contracts after the Istanbul hard fork Source 1 Source 2.
+Always assume that the receiver of the funds you are sending can be another contract, not just a regular address. Hence, it can execute code in its payable fallback method and re-enter your contract, possibly messing up your state/logic.
+Re-entrancy is a common attack. You should always be prepared for it!
+
+**_by wasny0ps_**
