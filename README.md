@@ -11,7 +11,7 @@
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel8.svg" height="120"> |[**Vault**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Vault)|**Level 8**|**Easy**|**Accessing Private Variable In Storage**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel9.svg" height="120"> |[**King**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/King)|**Level 9**|**Medium**|**Uncheck Calls Returns Value**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel10.svg" height="120"> |[**Re-entrancy**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Re-entracy)|**Level 10**|**Medium**|**Reentrancy**|
-| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel11.svg" height="120"> |[**Elevator**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Elevator)|**Level 11**|**Easy**|**-**|
+| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel11.svg" height="120"> |[**Elevator**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Elevator)|**Level 11**|**Easy**|**Unused Visibility Modifiers**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel12.svg" height="120"> |[**Privacy**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Privacy)|**Level 12**|**Hard**|**-**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel13.svg" height="120"> |[**Gatekeeper One**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Gatekeeper%20One)|**Level 13**|**Medium**|**-**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel14.svg" height="120"> |[**Gatekeeper Two**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Gatekeeper%20Two)|**Level 14**|**Medium**|**-**|
