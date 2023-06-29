@@ -102,23 +102,44 @@ contract Attack{
 }
 ```
 
-Shortly, our attack contract gets an instance of target contract in constructor. Later, in the attack function, it gets an bytes32 type an argument called **_key** which is retrive 2nd slots of data array from the target contract and it **converts the argument into bytes16 format**. Final it calls the unclock() function with the new key.
+Shortly, our attack contract gets an instance of target contract in constructor. Later, in the attack function, it gets an bytes32 type an argument called **_key** which is retrieve 2nd slots of data array from the target contract and it **converts the argument into bytes16 format**. Finally, it calls the unclock() function with the new key. Let's hack it.
+
+First of all check the locked variable's value.
 
 ```shell
 await contract.locked()
 true
 ```
 
+Then, retrieve the data from the contract storage even if it was marked as private. There is a small but important point that the state variables were defined differently. This type of definition affects the storage layout location of the variables. In this challenge, the storage location of variables is just like this because of the sizes of the variables in one storage slot:
+
+- Slot 0: *locked*
+- Slot 1: *ID*
+- Slot 2: *flattening*,*denomination*,*awkwardness*
+- Slot 3: *data[0]*
+- Slot 4: *data[1]*
+- Slot 5: *data[2]* 
+
+I strongly recomended [this article](https://docs.alchemy.com/docs/smart-contract-storage-layout) to understand this case better. To get back our business, we should aim retrieve the 5th slot and send it to the attack function. Time to unlock!
+
 ```shell
 await web3.eth.getStorageAt("0x9723e4E6B0F5A32329253F55a80f29fFf3ae73d5", 5)
 '0x7ec6a7b3fd05ab43951c4d7f2ed28ebdd4e5d435279430a3fd6b0f1df716e32d'
 ```
+
+<p><img src=""></p>
+
+Lastly, check the locked variable's value. Here we go!
 
 ```shell
 await contract.locked()
 false
 ```
 
+
+Ethernaut's message:
+
 > Nothing in the ethereum blockchain is private. The keyword private is merely an artificial construct of the Solidity language. Web3's getStorageAt(...) can be used to read anything from storage. It can be tricky to read what you want though, since several optimization rules and techniques are used to compact the storage as much as possible.
 
+**_by wasny0ps_**
 
