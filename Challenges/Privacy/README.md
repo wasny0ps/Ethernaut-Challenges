@@ -127,7 +127,7 @@ await web3.eth.getStorageAt("0x9723e4E6B0F5A32329253F55a80f29fFf3ae73d5", 5)
 '0x7ec6a7b3fd05ab43951c4d7f2ed28ebdd4e5d435279430a3fd6b0f1df716e32d'
 ```
 
-<p><img src=""></p>
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Privacy/src/attack.png"></p>
 
 Lastly, check the locked variable's value. Here we go!
 
