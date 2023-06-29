@@ -35,7 +35,7 @@ We have an contract which has type of bool variable called **locked** and type o
 
 Each smart contract running in the Ethereum Virtual Machine (EVM) maintains state in its own permanent storage. This storage can be thought of as a very large array, initially full of zeros. Each value in the array is 32-bytes wide, and there are 2256 such values. A smart contract can read from or write to a value at any location. That’s the extent of the storage interface.
 
-<img src="https://programtheblockchain.com/storage/storage.png">
+<p align="center"><img  height="200" src="https://programtheblockchain.com/storage/storage.png"></p>
 
 For example, we have a basic contract called **StorageTest** which helps us to understand how smart contract's storage works.
 
@@ -51,7 +51,7 @@ In the above code:
 + ```a``` is stored at **slot 0**. 
 + ```b``` is stored at **slot 1**.
 
-<img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Vault/img/storage.png">
+<p align="center"><img height="300" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Vault/img/storage.png"></p>
 
 More about  [Smart Contract's Storage](https://programtheblockchain.com/posts/2018/03/09/understanding-ethereum-smart-contract-storage/)
 
