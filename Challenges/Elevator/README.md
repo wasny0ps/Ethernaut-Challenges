@@ -66,11 +66,27 @@ When this contract is compiled with solc 0.5.0 or later, attempting to call the 
 
 ## Security Practice
 
+There are different ways of missing state-modifying functions that we may come accross in smart contract auditing. What is more, this issue causes a gas increment so you can notify this bug in your report. In this challenge, the **isLastFloor()** function should be marked as `view` for prevent the any dangerous override action.
+
+Let's look at these contract examples to understand better.
+
 ```solidity
+interface Building {
+  function isLastFloor(uint) external returns (bool);
+}
+
+// Vulnerable Code
 ```
 
 ```solidity
+interface Building {
+  function isLastFloor(uint) external view returns (bool);
+}
+
+// Safe Code
 ```
+
+As you can see, it is easy to stay secure. The important point is to check the function's features correspond to the process in the function and not neglect to use gas-safer opcodes. You can get more information about opcodes from [here.](https://ethereum.org/en/developers/docs/evm/opcodes/)
 
 # Subverting
 
@@ -106,3 +122,24 @@ contract Attack{
 
 In our attack contract, firstly we defined an interface named **IElavator** which will help us to call **goTo()** function from the target contract. Secondly, we have boolean type of a **x** variable which defined as false when the defination. Next, we have an **attack()** function that takes a target contract's address as an argument. It creates an instance with **IElevator** interface and call the **goTo()** function from this instance. Finally, there is **isLastFloor()** function which will have call from our **goTo()** function to check the last floor. But, when its first check, the function returns false and bypass the `! building.isLastFloor(_floor)` statement. In the second check, it returns true and set top vairable as true. Thus, we will solve the challenge.
 
+In the first step, get new instance from the ethernaut and check the top variable's value.
+
+```shell
+await contract.top()
+false
+````
+
+Deploy our attack contract and start to attack. You can get this tx from [here.](https://sepolia.etherscan.io/tx/0x11d571b1449c9fd3c48bf3aedfe8bd0d6eb968ed726ee921de4605ec37e39cb8)
+
+After then, check the top's value again. We solved the elevator challenge.
+
+```shell
+await contract.top()
+true
+```
+
+Ethernaut's message:
+
+>You can use the view function modifier on an interface in order to prevent state modifications. The pure modifier also prevents functions from modifying the state. Make sure you read Solidity's documentation and learn its caveats. An alternative way to solve this level is to build a view function which returns different results depends on input data but don't modify state, e.g. gasleft().
+
+**_by wasny0ps_**
