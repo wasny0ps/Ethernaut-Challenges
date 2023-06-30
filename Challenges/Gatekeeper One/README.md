@@ -94,6 +94,8 @@ contract Attack{
 }
 ```
 
+call attack function. See in [etherscan](https://sepolia.etherscan.io/tx/0xb28373341fc7cf1eba3ac0c67320cef9928268da033ec62771d2386ff422b8d7).
+
 ```shell
 await contract.entrant()
 '0x0000000000000000000000000000000000000000'
