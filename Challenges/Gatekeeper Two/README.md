@@ -64,3 +64,8 @@ It's important to note that the code uses low-level assembly and cryptographic o
 
 
 # Subverting
+
+
+```solidity
+
+```
