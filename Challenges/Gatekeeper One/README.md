@@ -109,3 +109,9 @@ await contract.entrant()
 player
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
+
+Ethernaut's message:
+
+> Well done! Next, try your hand with the second gatekeeper...
+
+
