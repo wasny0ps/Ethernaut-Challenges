@@ -167,15 +167,75 @@ This modifier requires the msg.sender is not the same as the tx.origin. That mea
 
 ### gateThree()
 
-This gate quit enjoyable to find out the gateKey. Let's continue with requirements:
+This gate quit enjoyable to find out the gateKey. First of all, we should define gateKey as `B1 B2 B3 B4 B5 B6 B7 B8` bit format. Then, we are ready for explict type conversion.
+
+We learned that **when type conversion beetwen bytes8 and uint64 types, there is no data losing**. If you don't know the reason of no data losing, you can read [this part.](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Gatekeeper%20One#explicit-conversions) In other words, **gateKey's bit format remain same**.
+
+```solidity
+bytes8 gateKey = 0xB1B2B3B4B5B6B7B8;
+return uint64(gateKey); // 0xB1B2B3B4B5B6B7B8
+```
+
+#### Requirement #1
+
+The first condition says, after converting to *_gateKey* variable into uint64 format, the uint32 form of the *_gateKey* variable's value equals the uint16 form of the *_gateKey* variable's value. **That means 5th and 6th bytes of *_gateKey* must be zero**.
+
+```solidity
+bytes8 gateKey = 0xB1B2B3B4B5B6B7B8;
+uint32 newGateKey1 = uint32(uint64(_gateKey)); // 0xB5B6B7B8
+uint16 newGateKey2 = uint16(uint64(_gateKey)); // 0xB7B8
+
+// 0xB5B6B7B8 == 0xB7B8
+// There is only one possibility for this situation.         
+// 0xB5B6B7B8 = 0x0000B7B8
+// B5 B6 => 00 00
+```
+
+#### Requirement #2
+
+In the second statement shows us the uint32 form of the *_gateKey*'s value does not equal to uint64 form of the *_gateKey*'s value. **So, the first four bits of *_gateKey* must not be zero**.
+
+```solidity
+bytes8 gateKey = 0xB1B2B3B40000B7B8;
+uint32 newGateKey1 = uint32(uint64(_gateKey)); // 0x0000B7B8
+uint64 newGateKey2 = uint64(_gateKey); // 0xB1B2B3B40000B7B8
+
+// 0x0000B7B8 != 0xB1B2B3B40000B7B8
+// This bits may be FF which corresponds to 11111111 in binary format.           
+// 0x0000B7B8 != 0xFFFFFFFF0000B7B8
+// B1 B2 B3 B4 !=> 00 00 00 00
+// B1 B2 B3 B4 ~=> FF FF FF FF
+```
+
+#### Requirement #3
+
+In the final check, **the uint32 form of the *_gateKey*'s value equals to uint16 form of transaction origin address**. (***The uint160 variable's size is 20 bytes which is length of an address on ethereum. That's why uint160 form of the tx.origin's value is a numerical representation of address with no data losing***.) In other saying, **7th and 8th bytes of *_gateKey* must be equal to last two bytes of tx.origin address**.
+
+```solidity
+bytes8 gateKey = 0xFFFFFFFF0000B7B8;
+address txOrigin = tx.origin; // example -> 0x12345678911121314151
+uint32 newGateKey = uint32(uint64(_gateKey)); // 0x0000B7B8
+uint16 newTxOrigin = uint16(uint160(txOrigin)); // 0x4151
+
+// 0x0000B7B8 == 0x4151
+// 0x0000B7B8 == 0x00004151
+// B7B8 = 4151
+// B7 B8 => last two bytes of tx.origin
+```
+
+To sum up:
 
 - `uint32(uint64(_gateKey)) == uint16(uint64(_gateKey))`: ***This condition ensures that the 5th and 6th bytes of *_gateKey* are zero***. 
 - `uint32(uint64(_gateKey)) != uint64(_gateKey)`: ***This condition ensures that the first four bytes of *_gateKey* are not all zeros***.
 - `uint32(uint64(_gateKey)) == uint16(uint160(tx.origin))`: ***This condition ensures that the 7th and 8th bytes of *_gateKey* match the last two bytes of the transaction origin address***.
 
+Thanks to this the results we can calculate *_gateKey* variable's value.
+
 ```solidity
 bytes8 gateKey = bytes8(uint64(uint160(tx.origin)) & 0xFFFFFFFF0000FFFF);
 ```
+
+In this command, we assign tx.origin bytes (because they are not 0) instead of `FF` place with bitmasking method. Thus, we are going to pass all condations in the gateThree() modifier.
 
 ### gateTwo()
 
