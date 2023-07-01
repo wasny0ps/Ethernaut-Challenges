@@ -163,7 +163,7 @@ In this section, we will bypass the modifiers one by one. For this reason, I spl
 
 ### gateOne()
 
-This modifier requires the msg.sender is not the same as the tx.origin. That means, we will always pass this condition because of our attack contract calls the enter() function externally.
+This modifier requires the msg.sender is not the same as the tx.origin. That means, we will **always pass this condition because of our attack contract calls the enter() function externally**.
 
 ### gateThree()
 
