@@ -51,4 +51,9 @@ Challenge's message:
 
 > This contract utilizes a library to store two different times for two different timezones. The constructor creates two instances of the library for each time to be stored. The goal of this level is for you to claim ownership of the instance you are given. - Look into Solidity's documentation on the delegatecall low level function, how it works, how it can be used to delegate operations to on-chain. libraries, and what implications it has on execution scope. - Understanding what it means for delegatecall to be context-preserving. - Understanding how storage variables are stored and accessed. - Understanding how casting works between different data types.
 
+
+The **Preservation** contract is a smart contract that allows users to set the time for **two different time zones using delegate calls to library contracts**. The contract is designed to be **upgradable**, meaning that the logic for setting the time is separated into external library contracts, **which can be swapped without modifying the main contract**. The `timeZone1Library` and `timeZone2Library` variables store the addresses of two public library contracts that handle the logic for setting the time in different time zones. And there is **storedTime** variable which stores the timestamp set by the library contracts.
+
+
+
 # Subverting
