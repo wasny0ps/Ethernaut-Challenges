@@ -1,4 +1,3 @@
-<img src="https://ethernaut.openzeppelin.com/imgs/BigLevel16.svg">
 
 # Target Contract Review
 
@@ -116,7 +115,129 @@ Here's how context-preserving delegation works and its implications on execution
 In conclusion, context-preserving delegation to on-chain libraries enables code reuse and modularity while allowing for upgradability. However, developers need to be cautious when implementing and using library contracts to ensure that the main contract's behavior and state are preserved, and potential security risks are minimized. Proper testing and auditing of library contracts are crucial to avoid unintended consequences and ensure the overall security and functionality of the system.
 
 
+## Storage Layout Vulnerability
+
+By now, we already know that when a delegatecall is used to update storage in Solidity, the state variables have to be declared in the same order. But what happens if we forget to declare the variables in the same order or declare the wrong type?
+
+Let's create the two contracts, Library and Vulnerable:
+
+```solidity
+contract Library {
+    uint public number;
+
+    function updateNumber(uint _number) public {
+        number = _number;
+    }
+}
+
+contract Vulnerable {
+    address public library;
+    address public owner;
+    uint public number;
+
+    constructor(address _library) {
+        library = _library;
+        owner = msg.sender;
+    }
+
+    function updateNumber(uint _number) public {
+        library.delegatecall(abi.encodeWithSignature("updateNumber(uint256)", _number));
+    }
+}
+```
+
+In the above code, we have two contracts. The first contract, Library, defines a state variable called number. It also has a function called saveNumber(). This function simply updates the value of number. In the second contract called Vulnerable, three state variables are defined. These are library, owner, number. The contract assigns the value of library to the address of the Library contract. It also sets the value of owner to msg.sender.
+
+Finally, the Vulnerable contract also has a function called updateNumber() which takes in a unit, just like Library.updateNumber(). Vulnerable.updateNumber() makes a delegatecall using the address of the Library contract. Inside the delegatecall, it makes a request to the updateNumber() function inside the Library contract.
+
+Now, let us make some observations. We first notice that the contract Library declares only one state variable, but the contract Vulnerable declares three state variables. This is the weak spot where any attacker will try to start exploiting the contract, Vulnerable. As we did in the last example, let us see how the owner of the Vulnerable contract can be hijacked because of this mistake. Take a look at this contract written to attack the Vulnerable contract:
+
+```solidity
+contract AttackVulnerable {
+
+    address public library;
+    address public owner;
+    uint public number;
+
+    Vulnerable public vulnerable;
+
+    constructor(Vulnerable _vulnerable) {
+        vulnerable = Vulnerable(_vulnerable);
+    }
+
+    function attack() public {
+        vulnerable.updateNumber(uint(address(this)));
+        vulnerable.updateNumber(1);
+    }
+
+    // function signature must match Vulnerable.updateNumber()
+    function updateNumber(uint _number) public {
+        owner = msg.sender;
+    }
+}
+```
+
+From the above code, our attacker is the contract called AttackVulnerable. The first thing we observe is that this contract has three state variables. These variables are in the same layout as the ones in the Vulnerable contract. It also has a state variable that holds the address of the Vulnerable contract. The actual value of the variable is assigned in the constructor.
+
+```solidity
+// The storage layout is the same as Vulnerable
+    // This will allow the attacker to correctly update the state variables
+    address public library;
+    address public owner;
+    uint public number;
+
+  //The state variable to store the address of the contract, Vulnerable
+    Vulnerable public vulnerable;
+
+  //constructor
+  constructor(Vulnerable _vulnerable) {
+          vulnerable = Vulnerable(_vulnerable);
+      }
+```
+
+Next, the attacker defines a function called **attack()**. In this function, the attacker calls the updateNumber() function inside the Vulnerable contract **twice**.
+
+```solidity
+function attack() public {
+        // override address of library
+        vulnerable.updateNumber(uint(address(this)));
+        // call the function updateNumber() with any number as input.
+        vulnerable.updateNumber(1);
+    }
+```
+
+In the first call, the attacker passes his address as an argument to the `Vulnerable.updateNumber()` function. However, `Vulnerable.updateNumber()` takes a uint as its argument. To overcome this, the attacker cleverly **casts his address to uint**.
+
+When the first call is executed, it will call the updateNumber() inside the Vulnerable contract. **The value of num will be the address of the attacker casted into a uint**. Vulnerable.updateNumber() will then delegatecall to the Library contract. This will call the updateNumber() function inside the Library contract.
+
+Once this function is called, it will proceed to update the state variable inside it. This will set the state variable to the address of the attacker. Back inside the Vulnerable contract, the first variable will be updated since only the first variable in the Library contract was updated. Since the first variable in the Vulnerable contract is the address of the Library contract, the address of the Library contract will be updated to the address of the AttackVulnerable contract.
+
+At this point, the execution of the first call is completed. So what happens when the second call, vulnerable.updateNumber(1); is made? Let’s find out:
+
+When this is called, it will call the updateNumber() function inside the Vulnerable contract, as expected. Remember that the Vulnerable.updateNumber() function makes a delegatecall to the Library contract by using the value stored in the library state variable. However, the value of the library variable has been updated by the previous call. This means **the function will make a delegatecall to the AttackVulnerable contract**.
+
+Once a delegatecall has been made to the AttackVulnerable contract, the AttackVulnerable.updateNumber() function is called. Let’s have a quick look at what the function does:
+
+```solidity
+function updateNumber(uint _number) public {
+        owner = msg.sender;
+    }
+```
+
+From the above code, we can see that it updates the owner state variable. But in this case, which owner state variable is going to be updated? Since the whole operation runs inside the context of the Vulnerable contract, the owner state variable that will be updated is the one inside the Vulnerable contract. Also, since msg.sender is the attacker’s address, Vulnerable’s address will be updated to the attacker’s address, making him the new owner of the Vulnerable contract.
+
+
+
+
+
+
+
+
+
+
 # Subverting
+
+
 
 ```solidity
 pragma solidity ^0.8.20;
