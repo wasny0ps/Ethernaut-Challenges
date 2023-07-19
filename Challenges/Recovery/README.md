@@ -96,11 +96,17 @@ contract Attack{
 
 Deploy the attack contract with target contract's address. See the transaction on [etherscan.](https://sepolia.etherscan.io/tx/0x0e33934f10ffdc3871d13cf4f9d743f320c1e9c57a89a58145482b1d05990d8b)
 
+We find the lost contract's address. It is 0x28f5b51501A6aAaE8007269761653320b3311355.
 
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Recovery/src/addr.png"></p>
 
-<p align="center"><img src=""></p>
+Let's check it's balance on [etherscan.](https://sepolia.etherscan.io/address/0x28f5b51501A6aAaE8007269761653320b3311355)
 
-<p align="center"><img src=""></p>
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Recovery/src/contract_balance.png"></p>
+
+Call attack function and check the contract's balance again. And passed the challenge! See the transaction on [etherscan.](https://sepolia.etherscan.io/tx/0x31de724d57975cc3a434ac8f5ffb9b6155a386929d530bb59080878412b8bbb7)
+
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Recovery/src/new_contract_balance.png"></p>
 
 
 Ethernaut's message:
