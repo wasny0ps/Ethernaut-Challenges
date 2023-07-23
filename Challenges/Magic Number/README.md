@@ -1,3 +1,6 @@
+<img src="https://ethernaut.openzeppelin.com/imgs/BigLevel18.svg">
+
+
 ## Resources
 
 I solved this challenge with the help of [0xSage's good writeup](https://medium.com/coinmonks/ethernaut-lvl-19-magicnumber-walkthrough-how-to-deploy-contracts-using-raw-assembly-opcodes-c50edb0f71a2) and [dear adityadixit's explanation.](https://blog.dixitaditya.com/ethernaut-level-18-magicnumber) So, I got some code blocks from their works. Thanks guys :-)
