@@ -44,6 +44,15 @@ Challenge's message:
 
 > This is a simple wallet that drips funds over time. You can withdraw the funds slowly by becoming a withdrawing partner. If you can deny the owner from withdrawing funds when they call withdraw() (whilst the contract still has funds, and the transaction is of 1M gas or less) you will win this level.
 
+
+The "Denial" contract is a Solidity smart contract that allows for withdrawing funds by a designated partner. It is designed to split the withdrawal into two equal parts, with 1% going to the recipient (designated partner) and 1% going to the owner of the contract. The contract also keeps track of the partner's balances for transparency.
+
+After deploying the contract, the contract owner can call the setWithdrawPartner function to set the withdrawal partner's address. This partner is the only one allowed to initiate withdrawals. Anyone can deposit funds into the contract by simply sending ETH to the contract's address. 
+
+The designated partner can call the withdraw function to withdraw funds from the contract. The function sends 1% of the contract's balance to the partner and 1% to the contract owner. The partner's withdrawal can revert if their contract's logic or requirements are not met, but this will not affect the owner's share. The contractBalance function can be used to view the current balance of the contract.
+
+
+
 # Subverting
 
 ```solidity
