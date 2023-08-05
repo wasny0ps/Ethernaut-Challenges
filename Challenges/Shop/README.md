@@ -71,6 +71,13 @@ contract Attack is Buyer{
 
 Firstly, it gets an instance of the contract. And then, in the override `price()` function, if the isSold variable's value is equal to true, it returns 0. If it is not, it returns 100. Thus, we will pass the conditions call by call. Finally, call the `buy()` with the attack function. Get the item for free!
 
+```solidity
+return target.isSold() ? 0:100;
+// _buyer.price() >= price && !isSold = isSold is false, return 100
+//  isSold = true; = isSold is true
+// price = _buyer.price(); = isSold is true, return 0 
+```
+
 Depoy the attack contract. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x3ee4cdaa240aea64ccb4af6da0c59cfbe465e6c75e4bff24859053d4df6699b2).
 
 Check the price's and isSold's values.
