@@ -85,13 +85,13 @@ contract Attack{
 }
 ```
 Before explain our attack contract, check target contract's balance.
-```shell
+```js
 await getBalance(contract.address)
 '0.001'
 ```
 We learned entire amouunt in target contract as **0.001 ether**. Let's convert it to wei.
 
-```shell
+```js
 await web3.utils.toWei('0.001','ether')
 '1000000000000000'
 ```
@@ -109,7 +109,7 @@ Call attack function with sending 1000000000000000 wei.
 
 And [show our hack](https://sepolia.etherscan.io/tx/0xdbaaf42d197de637ed949abc2580b89086e65c34d8135b64f1f2634816cb34fb)!
 
-```shell
+```js
 await getBalance(contract.address)
 '0'
 ```
