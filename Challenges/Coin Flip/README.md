@@ -79,7 +79,7 @@ contract Attack{
 ```
 Firstly, get our target contract address. Then set blockValue and choice as in target contract. And then send our guess to flip() function in the target contract.
 
-```shell
+```js
 await contract.address
 '0x24Aa95c4f7bf90BAa33ec67698f5ADc64B0DB551'
 ```
