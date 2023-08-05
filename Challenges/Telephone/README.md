@@ -57,7 +57,7 @@ contract Attack{
 For explain the code, we must first know which contract address the target is.Then call ```changeOwner()``` function as **msg.sender** of telephone contract. As a consequence, we will pass the condition.
 
 Learn contract address.
-```shell
+```js
 await contract
 n {methods: {…}, abi: Array(3), address: '0x822962fdf052E28fB48a45ACaf9564F46675d8ed', transactionHash: undefined, constructor: ƒ, …}
 
