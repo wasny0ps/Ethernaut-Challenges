@@ -290,7 +290,7 @@ Basically, it gets an target contract's instance and send to *gateKey* enter() f
 
 First in first, check the entrant variable's value.
 
-```shell
+```js
 await contract.entrant()
 '0x0000000000000000000000000000000000000000'
 ```
@@ -299,12 +299,12 @@ After the deploy our attack contract, let's call attack() function. See in [ethe
 
 Finally, check the entrant variable's value again. As you can see, we beat the GatekeeperOne challenge successfully.
 
-```shell
+```js
 await contract.entrant()
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
 
-```shell
+```js
 player
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
