@@ -21,7 +21,7 @@
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel18.svg" height="120"> |[**Magic Number**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Magic%20Number)|**Level 18**|**Medium**|**Raw EVM Bytecode**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel19.svg" height="120"> |[**Alien Codex**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Alien%20Codex)|**Level 19**|**Hard**|**Dynamic Array Underflow & First Underhanded Solidity Contest**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel20.svg" height="120"> |[**Denial**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Denial)|**Level 20**|**Medium**|**Unlimited call() Method**|
-| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel21.svg" height="120"> |[**Shop**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Shop)|**Level 21**|**Easy**|**-**|
+| <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel21.svg" height="120"> |[**Shop**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Shop)|**Level 21**|**Easy**|**Ternary Operators**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel22.svg" height="120"> |[**Dex**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Dex)|**Level 22**|**Easy**|**-**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel23.svg" height="120"> |[**Dex Two**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Dex%20Two)|**Level 23**|**Easy**|**-**|
 | <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel24.svg" height="120"> |[**Puzzle Wallet**](https://github.com/wasny0ps/Ethernaut-Challenges/tree/main/Challenges/Puzzle%20Wallet)|**Level 24**|**Hard**|**-**|
