@@ -160,19 +160,19 @@ Shortly, our attack contract gets an target contract's instance and call **enter
 
 First of all, check the entrant variable's value from the target contract.
 
-```shell
+```js
 await contract.entrant()
 '0x0000000000000000000000000000000000000000'
 ```
 
 After attack contract deployment's process, we will register as an entrant to the level's contract. Check the entrant's value again. Here we go!
 
-```shell
+```js
 await contract.entrant()
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
 
-```shell
+```js
 player
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
