@@ -108,7 +108,7 @@ Shortly, our attack contract gets an instance of target contract in constructor.
 
 First of all check the locked variable's value.
 
-```shell
+```js
 await contract.locked()
 true
 ```
@@ -124,7 +124,7 @@ Then, retrieve the data from the contract storage even if it was marked as priva
 
 I strongly recomended [this article](https://docs.alchemy.com/docs/smart-contract-storage-layout) to understand this case better. To get back our business, we should aim retrieve the 5th slot and send it to the attack function. Time to unlock!
 
-```shell
+```js
 await web3.eth.getStorageAt("0x9723e4E6B0F5A32329253F55a80f29fFf3ae73d5", 5)
 '0x7ec6a7b3fd05ab43951c4d7f2ed28ebdd4e5d435279430a3fd6b0f1df716e32d'
 ```
@@ -133,7 +133,7 @@ await web3.eth.getStorageAt("0x9723e4E6B0F5A32329253F55a80f29fFf3ae73d5", 5)
 
 Lastly, check the locked variable's value. Here we go!
 
-```shell
+```js
 await contract.locked()
 false
 ```
