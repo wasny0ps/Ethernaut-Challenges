@@ -142,14 +142,14 @@ To explain more clearly, if the target contract change to kingship as different 
 
 Check the king of target contarct.
 
-```shell
+```js
 await contract._king()
 '0x3049C00639E6dfC269ED1451764a046f7aE500c6'
 ```
 
 Check the king's prize.
 
-```shell
+```js
 
 fromWei(await contract.prize())
 '0.001'
@@ -161,7 +161,7 @@ When we deploy the attack contract, we must send higher than this price. It equa
 
 And we get kingship of the contract forever. As ponzi getsXD
 
-```shell
+```js
 await contract._king()
 '0xE27F0dB592D69A14f5FD26ba434056e22C375388'
 ```
