@@ -3,7 +3,7 @@
 ## Exploring
 
 Look at the ```abi``` of target contract.
-```shell
+```js
 await contract.abi
 Array(11) [ {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, … ]
 ​
@@ -35,7 +35,7 @@ length: 11
 
 ```
 Call info() function.
-```shell
+```js
 await contract.info()
 "You will find what you need in info1()."
 
@@ -69,14 +69,14 @@ As you can see, the next info method is **info42()**.
 await contract.info42()
 "theMethodName is the name of the next method."
 ```
-```shell
+```js
 await contract.theMethodName()
 "The method name is method7123949."
 
 await contract.method7123949()
 "If you know the password, submit it to authenticate()."
 ```
-```shell
+```js
 await contract.password()
 "ethernaut0"
 
