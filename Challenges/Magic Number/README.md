@@ -133,14 +133,14 @@ In this turn, we can combine them to get the final bytecode which can be used to
 
 Before the coffee break, we must do that create this solver contract with this bytecode in web3. See in [etherscan.](https://sepolia.etherscan.io/tx/0x7c5adb520e3d989447967562d7e611f8c65c9efb410982e8bf7e462a03d79ce2)
 
-```shell
+```js
 var bytecode = "600a600c600039600a6000f3602a60505260206050f3"
 var txn = web3.eth.sendTransaction({from: player, data: bytecode})
 ```
 
 Here is the solver contract's address `0xa1fdcbeafa437e6d16bbd99381112cc543e8a09b`. Finally, we must confirm this address to the challenge's contract. [See in etherscan.](https://sepolia.etherscan.io/tx/0xaea0d4f5a08a8fdf1f4191d1a27e4dddf976e3a9539a219b78b1d4312a1e00c4)
 
-```shell
+```js
 await contract.setSolver("0xa1fdcbeafa437e6d16bbd99381112cc543e8a09b")
 await contract.solver()
 '0xa1FDcBEaFa437e6d16BbD99381112Cc543e8A09B'
