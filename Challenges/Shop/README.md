@@ -71,7 +71,9 @@ contract Attack is Buyer{
 
 Firstly, it gets an instance of the contract. And then, in the override `price()` function, if the isSold variable's value is equal to true, it returns 0. If it is not, it returns 100. Thus, we will pass the conditions call by call. Finally, call the `buy()` with the attack function. Get the item for free!
 
-Depoy . See in 
+Depoy the attack contract. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x3ee4cdaa240aea64ccb4af6da0c59cfbe465e6c75e4bff24859053d4df6699b2).
+
+Check the price's and isSold's values.
 
 ```shell
 await contract.price()
@@ -98,8 +100,37 @@ await contract.isSold()
 false
 ```
 
+Call the attack function and check values again. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x66374d8cfea9c0d5ad2781f9e2aa21f8b2fec970d30d8d23fb33d0472537c76e).
+
+```shell
+await contract.price()
+i {negative: 0, words: Array(2), length: 1, red: null}
+length
+: 
+1
+negative
+: 
+0
+red
+: 
+null
+words
+: 
+(2) [0, empty]
+[[Prototype]]
+: 
+Object
+```
+
+```shell
+await contract.isSold()
+true
+```
+
+As you can see, we pass the challenge. See you in the next level!
+
 Ethernaut's message:
 
 > Contracts can manipulate data seen by other contracts in any way they want. It's unsafe to change the state based on external and untrusted contracts logic.
 
-
+**_by wasny0ps_**
