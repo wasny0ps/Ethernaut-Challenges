@@ -92,11 +92,11 @@ The actual problem is that b.length is assumed to equal NO_OF_A_LENGTH but this 
 
 For passing this challenge, we must get ownership of the contract. That's why, we should know the owner's storage slot in the contract before exploiting the dynamic array underflow vulnerability. When you look at the ABI of the contract, we can see that the Ownable contract's variables are in. In this case, we can reach the owner's slot number from the contract's storage with the `web3.eth.getStorageAt()` method. If you don't know about this method, you can navigate [this website.](https://medium.com/@dariusdev/how-to-read-ethereum-contract-storage-44252c8af925)
 
-```shell
+```js
 await contract.owner()
 '0x0BC04aa6aaC163A6B3667636D798FA053D43BD11'
 ```
-```shell
+```js
 await web3.eth.getStorageAt(contract.address, 0, console.log)
 '0x0000000000000000000000000bc04aa6aac163a6b3667636d798fa053d43bd11'
 ```
@@ -139,7 +139,7 @@ Basically, we calculated the index and set the contact variable as true. Then, t
 
 Deploy the contract and check the owner of the contract. See in [etherscan.](https://sepolia.etherscan.io/tx/0x42f2d3f4bceefa3c9c5b5b6b6fffd29f7ca1c977a713fe80fbf522d07c9883c7)
 
-```shell
+```js
 await contract.owner()
 '0x0BC04aa6aaC163A6B3667636D798FA053D43BD11'
 ```
@@ -150,7 +150,7 @@ After calling attack function, check the owner again. And, the mission is comple
 await contract.owner()
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
-```shell
+```js
 player
 '0x9C84d84b46971Faf8B480aB116b7f5391D630fA1'
 ```
