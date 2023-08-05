@@ -82,7 +82,7 @@ Depoy the attack contract. See the transaction [on etherscan](https://sepolia.et
 
 Check the price's and isSold's values.
 
-```shell
+```js
 await contract.price()
 i {negative: 0, words: Array(2), length: 1, red: null}
 length
@@ -102,14 +102,14 @@ words
 Object
 ```
 
-```shell
+```js
 await contract.isSold()
 false
 ```
 
 Call the attack function and check values again. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x66374d8cfea9c0d5ad2781f9e2aa21f8b2fec970d30d8d23fb33d0472537c76e).
 
-```shell
+```js
 await contract.price()
 i {negative: 0, words: Array(2), length: 1, red: null}
 length
@@ -129,7 +129,7 @@ words
 Object
 ```
 
-```shell
+```js
 await contract.isSold()
 true
 ```
