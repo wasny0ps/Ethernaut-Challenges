@@ -127,7 +127,7 @@ In our attack contract, firstly we defined an interface named **IElavator** whic
 
 In the first step, get new instance from the ethernaut and check the top variable's value.
 
-```shell
+```js
 await contract.top()
 false
 ````
@@ -136,7 +136,7 @@ Deploy our attack contract and start to attack. You can get this tx from [here.]
 
 After then, check the top's value again. We solved the elevator challenge.
 
-```shell
+```js
 await contract.top()
 true
 ```
