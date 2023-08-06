@@ -212,11 +212,11 @@ When the first call is executed, it will call the updateNumber() inside the Vuln
 
 Once this function is called, it will proceed to update the state variable inside it. This will set the state variable to the address of the attacker. Back inside the Vulnerable contract, the first variable will be updated since only the first variable in the Library contract was updated. Since the first variable in the Vulnerable contract is the address of the Library contract, the address of the Library contract will be updated to the address of the AttackVulnerable contract.
 
-At this point, the execution of the first call is completed. So what happens when the second call, vulnerable.updateNumber(1); is made? Let’s find out:
+At this point, the execution of the first call is completed. So what happens when the second call, `vulnerable.updateNumber(1);` is made? Let’s find out:
 
-When this is called, it will call the updateNumber() function inside the Vulnerable contract, as expected. Remember that the Vulnerable.updateNumber() function makes a delegatecall to the Library contract by using the value stored in the library state variable. However, the value of the library variable has been updated by the previous call. This means **the function will make a delegatecall to the AttackVulnerable contract**.
+When this is called, it will call the **updateNumber()** function inside the Vulnerable contract, as expected. Remember that the `Vulnerable.updateNumber()` function makes a delegatecall to the Library contract by using the value stored in the library state variable. However, the value of the library variable has been updated by the previous call. This means **the function will make a delegatecall to the AttackVulnerable contract**.
 
-Once a delegatecall has been made to the AttackVulnerable contract, the AttackVulnerable.updateNumber() function is called. Let’s have a quick look at what the function does:
+Once a delegatecall has been made to the AttackVulnerable contract, the `AttackVulnerable.updateNumber()` function is called. Let’s have a quick look at what the function does:
 
 ```solidity
 function updateNumber(uint _number) public {
@@ -224,7 +224,7 @@ function updateNumber(uint _number) public {
     }
 ```
 
-From the above code, we can see that it updates the owner state variable. But in this case, which owner state variable is going to be updated? Since the whole operation runs inside the context of the Vulnerable contract, the owner state variable that will be updated is the one inside the Vulnerable contract. Also, since msg.sender is the attacker’s address, Vulnerable’s address will be updated to the attacker’s address, making him the new owner of the Vulnerable contract.
+From the above code, we can see that it updates the owner state variable. But in this case, which owner state variable is going to be updated? Since the whole operation runs inside the context of the Vulnerable contract, **the owner state variable that will be updated** is the one inside the Vulnerable contract. Also, since msg.sender is the attacker’s address, Vulnerable’s address will be updated to the attacker’s address, making him the new owner of the Vulnerable contract.
 
 
 
