@@ -1,6 +1,9 @@
 
 <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel22.svg">
 
+### Resources
+
+While I preparing this writeup, I benefit Naveen's graph from [his article](https://dev.to/nvn/ethernaut-hacks-level-22-dex-1e18). Thanks 🏹
 
 # Target Contract Review
 
@@ -97,7 +100,9 @@ The `SwappableToken` contract is an ERC20 token that can be swapped on the DEX.
 
 In solidity, mathematical processes are between integers values so the result of this process must be an integer. That's why, it doesn't get fractions. For example, `5 / 2 = 2` in solidity. 
 
-When we look at the contract, it divides the `getSwapPrice()` function. In other words, there are potential issues we will abuse them. We're going to swap all of our token1 for token2. Then swap all our token2 to obtain token1, then swap all our token1 for token2 and continue.
+When we look at the contract, it calculate the swap price with division of `(amount * IERC20(to).balanceOf(address(this))` and `IERC20(from).balanceOf(address(this))` values. After calculating the swap price, it uses this value as swappable tokens count. In this case, it may swaps more than enough balance. Let's explain this issue with example! 
+
+We're going to swap all of our token1 for token2. Then swap all our token2 to token1, then swap all our token1 for token2 and continue.
 
 ```
       DEX       |      player  
@@ -116,7 +121,7 @@ token1 - token2 | token1 - token2
   110     90    |   0       20 
 ```
 
-Note that at this point exchange rate is adjusted. Now, exchanging 20 token2 should give 20 * 110 / 90 = 24.44... But since division results in integer we get 24 token2. Price adjusts again. Swap again.
+Note that at this point exchange rate is adjusted. Now, exchanging 20 token2 should give **20 * 110 / 90 = 24.44...** But since division results in integer we get **24 token2**. Price adjusts again. Swap again.
 
 ```
       DEX       |        player  
@@ -141,7 +146,7 @@ token1 - token2 | token1 - token2
   110     45    |   0       65 
 ```
 
-At this point, at the last swap above we've gotten hold of 65 token2, which is more than enough to drain all of 110 token1! By simple calculation, only 45 of token2 is required to get all 110 of token1.
+At this point, at the last swap above we've gotten hold of 65 token2, which is more than enough to drain all of 110 token1! By simple calculation, only 45 of token2 is required to get all 110 of token1. 
 
 ```
       DEX       |     player  
@@ -156,6 +161,7 @@ token1 - token2 | token1 - token2
   0       90    |   110     20
 ```
 
+We understand how to drain all token1. Let's jump the console and pass the challenge!
 
 Get the token addresses.
 
