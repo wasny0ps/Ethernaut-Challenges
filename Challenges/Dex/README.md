@@ -92,7 +92,7 @@ The `Dex` contract is a simple DEX that allows the owner to set two tokens for t
 
 The `SwappableToken` contract is an ERC20 token that can be swapped on the DEX.
 
-- `approve(address owner, address spender, uint256 amount)`: This function allows the `owner` to approve the `spender` to spend a certain `amount` of tokens on their behalf. However, the `spender` can't be the DEX contract itself.
+- `approve()`: This function allows the `owner` to approve the `spender` to spend a certain `amount` of tokens on their behalf. However, the `spender` can't be the DEX contract itself.
 
 
 
