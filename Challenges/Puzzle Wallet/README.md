@@ -150,6 +150,10 @@ The `PuzzleWallet` contract implements a simple wallet with additional controls.
 
 It's important to understand that the delegatecall in the `multicall` function can be risky if not used carefully, as it can allow the called contract to manipulate the state of the caller contract.
 
+## Upgradeable Contracts
+
+## Delegatecall In The Upgreadable Contracts
+
 ## Storage Collisions
 
 By now, we already know that when a delegatecall is used to update storage in Solidity, the state variables have to be declared in the same order. But what happens if we forget to declare the variables in the same order or declare the wrong type?
@@ -262,7 +266,7 @@ function updateNumber(uint _number) public {
 From the above code, we can see that it updates the owner state variable. But in this case, which owner state variable is going to be updated? Since the whole operation runs inside the context of the Vulnerable contract, **the owner state variable that will be updated** is the one inside the Vulnerable contract. Also, since msg.sender is the attacker’s address, Vulnerable’s address will be updated to the attacker’s address, making him the new owner of the Vulnerable contract.
 
 
-## Upgradeable Contracts
+
 
 # Subverting
 
