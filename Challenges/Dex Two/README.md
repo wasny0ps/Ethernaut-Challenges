@@ -93,9 +93,13 @@ The `SwappableTokenTwo` contract is an ERC20 token that can be swapped on the DE
 
 # Subverting
 
-In solidity, mathematical processes are between integers values so the result of this process must be an integer. That's why, it doesn't get fractions. For example, `5 / 2 = 2` in solidity. 
+This challenge is quite similar to **Dex** challenge. The same logic is valid. However, it is good to remember what was happing in the previous challenge. In solidity, mathematical processes are between integers values so the result of this process must be an integer. That's why, it doesn't get fractions. For example, `5 / 2 = 2` in solidity. 
 
-When we look at the contract, it calculate the swap price with division of `(amount * IERC20(to).balanceOf(address(this))` and `IERC20(from).balanceOf(address(this))` values. After calculating the swap price, it uses this value as swappable tokens count. In this case, it may swaps more than enough balance. Let's explain this issue with example! 
+When we look at the contract, it calculate the swap price with division of `(amount * IERC20(to).balanceOf(address(this))` and `IERC20(from).balanceOf(address(this))` values. After calculating the swap price, it uses this value as swappable tokens count. In this case, it may swaps more than enough balance. 
+
+The difference of the dexTwo challenge is, there is no 
+
+Let's explain this issue with example! 
 
 We're going to swap all of our token1 for token2. Then swap all our token2 to token1, then swap all our token1 for token2 and continue.
 
