@@ -151,9 +151,7 @@ It's important to understand that the delegatecall in the `multicall` function c
 
 ## Upgradeable Contracts
 
-Smart contracts on Ethereum are self-executing programs that run in the Ethereum Virtual Machine (EVM). These programs are immutable by design, which prevents any updates to the business logic once the contract is deployed.
-
-While immutability is necessary for trustlessness, decentralization, and security of smart contracts, it may be a drawback in certain cases. For instance, immutable code can make it impossible for developers to fix vulnerable contracts.
+Smart contracts on Ethereum are self-executing programs that run in the Ethereum Virtual Machine (EVM). These programs are immutable by design, which prevents any updates to the business logic once the contract is deployed. While immutability is necessary for trustlessness, decentralization, and security of smart contracts, it may be a drawback in certain cases. For instance, immutable code can make it impossible for developers to fix vulnerable contracts.
 
 However, increased research into improving smart contracts has led to the introduction of several **upgrade patterns**. These upgrade patterns enable developers to upgrade smart contracts (while preserving immutability) by placing business logic in different contracts.
 
@@ -173,7 +171,12 @@ Upgradable contracts in the blockchain context are smart contracts designed with
 
 Here's a simplified version of how it works:
 
+<p align="center"><img width="600" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/data-proxy.png"></p>
+
+
 1. **Data Contract (Storage Contract)**: This contract holds all the state variables and data of your dApp. Once deployed, it remains unchanged. It is also responsible for delegating calls to the logic contract.
+
+
 
 2. **Logic Contract (Functional Contract)**: This contract contains the business logic that can manipulate the data stored in the Data Contract. This contract can be upgraded by deploying a new version and updating the address of the logic contract in the Data Contract.
 
@@ -181,9 +184,6 @@ Here's a simplified version of how it works:
 
 The process of upgrading involves deploying a new logic contract and updating the address in the proxy contract. This way, the state remains consistent, while the logic can be upgraded. 
 
-However, upgradable contracts introduce additional complexity and potential security risks, so they should be used judiciously and thoroughly audited. 
-
-Remember, contract upgrades should be transparent and communicated to users, as they can significantly alter a dApp's functionality
 
 <p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/upgradable-smart-contracts.png"></p>
 
