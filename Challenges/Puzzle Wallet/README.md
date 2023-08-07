@@ -354,11 +354,17 @@ After an exhausting explanation, finally, we arrived hacking part :D We are cert
 
 <p><img height="150" src="https://media.tenor.com/9ItR8nSuxE0AAAAC/thumbs-up-computer.gif"></p>
 
-First of all, we must be the owner of the contract to whitelisted our address. So, we will trigger a storage collision in the first slot of the `ProxyWalllet` and `PuzzleWallet` contracts. It just so happens that in the first slot's values of this contract are belong to `pendingAdmin` and `owner` variables. In other words, we can change the pendingAdmin's value, we will automatically update the owner's value. Thanks to the `proposeNewAdmin()` function, we will set this address as our attack contract's address. After then, we will be owner and whitelisted.
+First of all, we must be the owner of the contract to whitelisted our address. So, we will **trigger a storage collision in the first slots** of the `ProxyWalllet` and `PuzzleWallet` contracts. It just so happens that in the first slot's values of this contracts are belong to `pendingAdmin` and `owner` variables. In other words, when we can change the pendingAdmin's value, we will **automatically update the owner's value**. Thanks to the `proposeNewAdmin()` function, we will set this address as our attack contract's address. After then, we will be owner and whitelisted.
 
 
-The second thing we need to do that call the `setMaxBalance` function to change the `maxBalance` variable's value. In another saying, set `admin` as our address with helping of storage collision in the second slot of target contracts. Yes, same surprise. Unfortunately, the work isn't quite easy as seen.
+The second thing we need to do that call the `setMaxBalance` function to change the `maxBalance` variable's value. In another saying, set `admin` as our address with helping of storage collision in the second slot of target contracts. Yes, same surprise. 
 
+Unfortunately, the work isn't quite easy as seen. We must set to zero of the contract's balance because of skipping `address(this).balance == 0, "Contract balance is not 0"` requirement. When look at the balance of contract from etherscan, we have seen it's balance.
+
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/balance.png"></p>
+
+
+As you can see, it's balance is 0.001 ether. 
 
 
 ```solidity
