@@ -167,7 +167,7 @@ You still cannot change a program deployed to an address on the Ethereum network
 - Creating separate contracts to store business logic and state.
 - **Using proxy patterns to delegate function calls from an immutable proxy contract to a modifiable logic contract**.
 - Creating an immutable main contract that interfaces with and relies on flexible satellite contracts to execute specific functions.
-- Using the diamond pattern to delegate function calls from a proxy contract to logic contracts.
+- Using the diamond pattern to **delegate function calls from a proxy contract to logic contracts**.
 
 Upgradable contracts in the blockchain context are smart contracts designed with a mechanism to allow their logic to be modified after deployment. This is achieved by separating the contract's state and logic into different contracts, with the logic contract being replaceable.
 
@@ -371,4 +371,7 @@ Ethernaut's message:
 
 ### Read More
 
-- **Such a good explanation proxy patterns from** [***OpenZeppelin's post***](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies).
+- **Such a good explanation about proxy patterns from** [***OpenZeppelin's post***](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies).
+- **Inspirational research about proxy pattern issiues from** [***Nomic Foundation's article***](https://medium.com/nomic-foundation-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357) **and** [***ZeppelinOS auidit reports***](https://medium.com/nomic-foundation-blog/zeppelinos-smart-contracts-audit-dc772cfae224).
+
+**_by wasny0ps_**
