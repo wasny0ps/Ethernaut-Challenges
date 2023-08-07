@@ -152,6 +152,18 @@ It's important to understand that the delegatecall in the `multicall` function c
 
 ## Upgradeable Contracts
 
+Smart contracts on Ethereum are self-executing programs that run in the Ethereum Virtual Machine (EVM). These programs are immutable by design, which prevents any updates to the business logic once the contract is deployed.
+
+While immutability is necessary for trustlessness, decentralization, and security of smart contracts, it may be a drawback in certain cases. For instance, immutable code can make it impossible for developers to fix vulnerable contracts.
+
+However, increased research into improving smart contracts has led to the introduction of several upgrade patterns. These upgrade patterns enable developers to upgrade smart contracts (while preserving immutability) by placing business logic in different contracts.
+
+A smart contract upgrade involves changing the business logic of a smart contract while preserving the contract's state. It is important to clarify that upgradeability and mutability are not the same, especially in the context of smart contracts.
+
+You still cannot change a program deployed to an address on the Ethereum network. But you can change the code that's executed when users interact with a smart contract.
+
+
+
 ## Delegatecall In The Upgreadable Contracts
 
 ## Storage Collisions
