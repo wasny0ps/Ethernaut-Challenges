@@ -349,6 +349,18 @@ From the above code, we can see that it updates the owner state variable. But in
 
 # Subverting
 
+
+After an exhausting explanation, finally, we arrived hacking part :D We are certainly sure that we must be the admin of the proxy contract to pass the challenge. But how is that possible? Maybe we need to think backwards some points. Prepare coffies!
+
+<p><img height="150" src="https://media.tenor.com/9ItR8nSuxE0AAAAC/thumbs-up-computer.gif"></p>
+
+First of all, we must be the owner of the contract to whitelisted our address. So, we will trigger a storage collision in the first slot of the `ProxyWalllet` and `PuzzleWallet` contracts. It just so happens that in the first slot's values of this contract are belong to `pendingAdmin` and `owner` variables. In other words, we can change the pendingAdmin's value, we will automatically update the owner's value. Thanks to the `proposeNewAdmin()` function, we will set this address as our attack contract's address. After then, we will be owner and whitelisted.
+
+
+The second thing we need to do that call the `setMaxBalance` function to change the `maxBalance` variable's value. In another saying, set `admin` as our address with helping of storage collision in the second slot of target contracts. Yes, same surprise. Unfortunately, the work isn't quite easy as seen.
+
+
+
 ```solidity
 pragma solidity ^0.8.20;
 
