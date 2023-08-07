@@ -1,7 +1,6 @@
 
 <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel24.svg">
 
-
 # Target Contract Review
 
 Given contract.
@@ -156,11 +155,37 @@ Smart contracts on Ethereum are self-executing programs that run in the Ethereum
 
 While immutability is necessary for trustlessness, decentralization, and security of smart contracts, it may be a drawback in certain cases. For instance, immutable code can make it impossible for developers to fix vulnerable contracts.
 
-However, increased research into improving smart contracts has led to the introduction of several upgrade patterns. These upgrade patterns enable developers to upgrade smart contracts (while preserving immutability) by placing business logic in different contracts.
+However, increased research into improving smart contracts has led to the introduction of several **upgrade patterns**. These upgrade patterns enable developers to upgrade smart contracts (while preserving immutability) by placing business logic in different contracts.
 
-A smart contract upgrade involves changing the business logic of a smart contract while preserving the contract's state. It is important to clarify that upgradeability and mutability are not the same, especially in the context of smart contracts.
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/upgradable-smart-contracts.png"></p>
 
-You still cannot change a program deployed to an address on the Ethereum network. But you can change the code that's executed when users interact with a smart contract.
+A smart contract upgrade **involves changing the business logic of a smart contract while preserving the contract's state**. It is important to clarify that **upgradeability and mutability are not the same**, especially in the context of smart contracts.
+
+You still cannot change a program deployed to an address on the Ethereum network. But you can change the code that's executed when users interact with a smart contract. This can be done via the following methods:
+
+- Creating multiple versions of a smart contract and migrating state from the old contract to a new instance of the contract.
+- Creating separate contracts to store business logic and state.
+- **Using proxy patterns to delegate function calls from an immutable proxy contract to a modifiable logic contract**.
+- Creating an immutable main contract that interfaces with and relies on flexible satellite contracts to execute specific functions.
+- Using the diamond pattern to delegate function calls from a proxy contract to logic contracts.
+
+Upgradable contracts in the blockchain context are smart contracts designed with a mechanism to allow their logic to be modified after deployment. This is achieved by separating the contract's state and logic into different contracts, with the logic contract being replaceable.
+
+Here's a simplified version of how it works:
+
+1. **Data Contract (Storage Contract)**: This contract holds all the state variables and data of your dApp. Once deployed, it remains unchanged. It is also responsible for delegating calls to the logic contract.
+
+2. **Logic Contract (Functional Contract)**: This contract contains the business logic that can manipulate the data stored in the Data Contract. This contract can be upgraded by deploying a new version and updating the address of the logic contract in the Data Contract.
+
+3. **Proxy Contract**: This contract is responsible for forwarding calls and data from the user to the correct Logic Contract and returning the results to the caller. This contract also holds the address of the current Logic Contract.
+
+The process of upgrading involves deploying a new logic contract and updating the address in the proxy contract. This way, the state remains consistent, while the logic can be upgraded. 
+
+However, upgradable contracts introduce additional complexity and potential security risks, so they should be used judiciously and thoroughly audited. 
+
+Remember, contract upgrades should be transparent and communicated to users, as they can significantly alter a dApp's functionality
+
+<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/upgradable-smart-contracts.png"></p>
 
 
 
@@ -340,3 +365,10 @@ await contract.owner()
 Ethernaut's message:
 
 > Next time, those friends will request an audit before depositing any money on a contract. Congrats! Frequently, using proxy contracts is highly recommended to bring upgradeability features and reduce the deployment's gas cost. However, developers must be careful not to introduce storage collisions, as seen in this level. Furthermore, iterating over operations that consume ETH can lead to issues if it is not handled correctly. Even if ETH is spent, msg.value will remain the same, so the developer must manually keep track of the actual remaining amount on each iteration. This can also lead to issues when using a multi-call pattern, as performing multiple delegatecalls to a function that looks safe on its own could lead to unwanted transfers of ETH, as delegatecalls keep the original msg.value sent to the contract. Move on to the next level when you're ready!
+
+
+### Security Takeaways
+
+### Read More
+
+- **Such a good explanation proxy patterns from** [***OpenZeppelin's post***](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies).
