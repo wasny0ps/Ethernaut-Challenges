@@ -185,15 +185,57 @@ Here's a simplified version of how it works:
 The process of upgrading involves deploying a new logic contract and updating the address in the proxy contract. This way, the state remains consistent, while the logic can be upgraded. 
 
 
-<p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/upgradable-smart-contracts.png"></p>
+<p align="center"><img height="350" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/upgradable-smart-contracts-2.png"></p>
+
+If you looking forward more about upgreadable contracts, you would see [this article.](https://blog.chain.link/upgradable-smart-contracts/)
+
+## Using Delegatecall For Upgreading UUPS
+
+Delegatecall is a powerful feature in Solidity that allows one contract to "borrow" code from another contract, while preserving the state of the calling contract. This feature is often used in upgradeable contracts, where the logic of a contract can be changed by simply pointing to a new contract with the updated code.
+
+Here's a basic example of how you can use delegatecall in an upgradeable contract:
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract LogicContract {
+    function pwn() public pure returns(string memory) {
+        return "Hello";
+    }
+}
+
+contract ProxyContract {
+    address public logicContract;
+
+    constructor(address _logicContract) {
+        logicContract = _logicContract;
+    }
+
+    function upgradeLogic(address _newLogicContract) public {
+        logicContract = _newLogicContract;
+    }
+
+    fallback() external {
+        (bool success, ) = logicContract.delegatecall(msg.data);
+        require(success, "Delegatecall failed");
+    }
+}
+```
+
+In this example, `ProxyContract` is the upgradeable contract. It uses `delegatecall` in its fallback function to execute code in `LogicContract`. When you want to upgrade the contract, you simply call `upgradeLogic` with the address of the new logic contract.
+
+Also pay attention that when you use `delegatecall` for update values in the UUPS, this change also **affects the logic contract's storage because of sharing with the same storage structure**. 
+
+<p align="center"><img height="175" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/UUPS_upgradability.png"></p>
 
 
+What is more, this feature can be manipulated by hackers to trigger a storage collision in the target contracts. Shortly, using `delegatecall` can be risky because it executes another contract's code in the context of the calling contract, which can lead to unexpected behaviour if not used correctly.
 
-## Delegatecall In The Upgreadable Contracts
+If you are more interested in using delegatecall cause of critical weaknesses, check Halborn's article [from here](https://www.halborn.com/blog/post/delegatecall-vulnerabilities-in-solidity).
 
 ## Storage Collisions
 
-By now, we already know that when a delegatecall is used to update storage in Solidity, the state variables have to be declared in the same order. But what happens if we forget to declare the variables in the same order or declare the wrong type?
+We already know that when a delegatecall is used to update storage in Solidity, the state variables have to be declared in the same order. But what happens if we forget to declare the variables in the same order or declare the wrong type?
 
 Let's create the two contracts, Library and Vulnerable:
 
@@ -371,7 +413,8 @@ Ethernaut's message:
 
 ### Read More
 
-- **Such a good explanation about proxy patterns from** [***OpenZeppelin's post***](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies).
+- **Deeply understand what proxy upgrade pattern on the UUPS thanks to** [***OpenZeppelin's docs***](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies).
+- **Such a good explanation about proxy patterns from** [***OpenZeppelin's post***](https://blog.openzeppelin.com/proxy-patterns).
 - **Inspirational research about proxy pattern issiues from** [***Nomic Foundation's article***](https://medium.com/nomic-foundation-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357) **and** [***ZeppelinOS auidit reports***](https://medium.com/nomic-foundation-blog/zeppelinos-smart-contracts-audit-dc772cfae224).
 
 **_by wasny0ps_**
