@@ -364,8 +364,14 @@ Unfortunately, the work isn't quite easy as seen. We must **set to zero of the c
 <p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/balance.png"></p>
 
 
-As you can see, it's balance is 0.001 ether. 
+As you can see, its balance is 0.001 ether. This means we need **find some reentrancy point to call the deposit function and send more money to our balance than the contract saves in a single transaction**. Thus, we can get all amount from the contract accepting its starting balance. Incidentally, we have a good helper called `multicall()` to solve this problem. 
 
+It gives us to execute more than one process in a single transaction. If you look closer multicall() function, we can see that **precautions have been taken to prevent the `deposit()` function from being called more than once**. Will we give up? Nope. When we analyze it better, we noticed it gets a `bytes[]` array and stays in the loop as long as the array. What will happen when **call multicall() with the point of the deposit() function after calling deposit() once**? It is the only possible way I found **sends the data parameter by zipping an array into the data array**. 
+
+<p><img height="150" src="https://media.tenor.com/uBrOl8WjH-EAAAAC/explode-boom.gif"></p>
+
+
+After successfully, reentrancied the contract, withdraw all money. In this part, we passed the requirement. Finally, we should update the `maxBalance` variable's value as the attack contract's address and be admin! Let's look at our final attack contract:
 
 ```solidity
 pragma solidity ^0.8.20;
