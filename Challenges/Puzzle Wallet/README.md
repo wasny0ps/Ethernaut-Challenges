@@ -439,6 +439,13 @@ Ethernaut's message:
 
 ### Security Takeaways
 
+- **Be careful when you interact Proxy Contract with delagatecall()**. It can manipulate logic contract storage.
+
+- **Use the correct proxy pattern according to your project requirements**.
+
+- **Be %100 per cent sure that you do not trigger a transaction with values imported from outside unless necessary**. It may cause reentrancy vulnerability.
+
+
 ### Read More
 
 - **Deeply understand what proxy upgrade pattern on the UUPS thanks to** [***OpenZeppelin's docs***](https://docs.openzeppelin.com/upgrades-plugins/1.x/proxies).
