@@ -359,7 +359,7 @@ First of all, we must be the owner of the contract to whitelisted our address. S
 
 The second thing we need to do that call the `setMaxBalance` function to change the `maxBalance` variable's value. In another saying, set `admin` as our address with helping of storage collision in the second slot of target contracts. Yes, same surprise. 
 
-Unfortunately, the work isn't quite easy as seen. We must set to zero of the contract's balance because of skipping `address(this).balance == 0, "Contract balance is not 0"` requirement. When look at the balance of contract from etherscan, we have seen it's balance.
+Unfortunately, the work isn't quite easy as seen. We must **set to zero of the contract's balance** because of skipping `address(this).balance == 0, "Contract balance is not 0"` requirement. When look at the balance of contract from etherscan, we have seen it's balance.
 
 <p align="center"><img src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/balance.png"></p>
 
