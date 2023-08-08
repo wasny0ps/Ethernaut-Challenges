@@ -151,7 +151,7 @@ It's important to understand that the delegatecall in the `multicall` function c
 
 ## Upgradeable Contracts
 
-Smart contracts on Ethereum are self-executing programs that run in the Ethereum Virtual Machine (EVM). These programs are immutable by design, which prevents any updates to the business logic once the contract is deployed. While immutability is necessary for trustlessness, decentralization, and security of smart contracts, it may be a drawback in certain cases. For instance, immutable code can make it impossible for developers to fix vulnerable contracts.
+Smart contracts on Ethereum are self-executing programs that run in the Ethereum Virtual Machine (EVM). These programs are immutable by design, which prevents any updates to the business logic once the contract is deployed. While immutability is necessary for trustlessness, decentralization, and security of smart contracts, it may be a drawback in certain cases. For instance, immutable code can **make it impossible for developers to fix vulnerable contracts**.
 
 However, increased research into improving smart contracts has led to the introduction of several **upgrade patterns**. These upgrade patterns enable developers to upgrade smart contracts (while preserving immutability) by placing business logic in different contracts.
 
@@ -161,26 +161,26 @@ A smart contract upgrade **involves changing the business logic of a smart contr
 
 You still cannot change a program deployed to an address on the Ethereum network. But you can change the code that's executed when users interact with a smart contract. This can be done via the following methods:
 
-- Creating multiple versions of a smart contract and migrating state from the old contract to a new instance of the contract.
-- Creating separate contracts to store business logic and state.
+- **Creating multiple versions of a smart contract and migrating state from the old contract to a new instance of the contract**.
+- **Creating separate contracts to store business logic and state**.
 - **Using proxy patterns to delegate function calls from an immutable proxy contract to a modifiable logic contract**.
-- Creating an immutable main contract that interfaces with and relies on flexible satellite contracts to execute specific functions.
-- Using the diamond pattern to **delegate function calls from a proxy contract to logic contracts**.
+- **Creating an immutable main contract that interfaces with and relies on flexible satellite contracts to execute specific functions**.
+- **Using the diamond pattern to delegate function calls from a proxy contract to logic contracts**.
 
-Upgradable contracts in the blockchain context are smart contracts designed with a mechanism to allow their logic to be modified after deployment. This is achieved by separating the contract's state and logic into different contracts, with the logic contract being replaceable.
+Upgradable contracts in the blockchain context are smart contracts designed with a mechanism to allow their logic to be modified after deployment. This is achieved by **separating the contract's state and logic into different contracts, with the logic contract being replaceable**.
 
 Here's a simplified version of how it works:
 
 <p align="center"><img width="600" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/data-proxy.png"></p>
 
 
-1. **Data Contract (Storage Contract)**: This contract holds all the state variables and data of your dApp. Once deployed, it remains unchanged. It is also responsible for delegating calls to the logic contract.
+1. **Data Contract (Storage Contract)**: This contract holds all the state variables and data of your dApp. Once deployed, it remains unchanged. It is also responsible for **delegating calls to the logic contract**.
 
 
 
 2. **Logic Contract (Functional Contract)**: This contract contains the business logic that can manipulate the data stored in the Data Contract. This contract can be upgraded by deploying a new version and updating the address of the logic contract in the Data Contract.
 
-3. **Proxy Contract**: This contract is responsible for forwarding calls and data from the user to the correct Logic Contract and returning the results to the caller. This contract also holds the address of the current Logic Contract.
+3. **Proxy Contract**: This contract is responsible for **forwarding calls and data from the user to the correct logic contract and returning the results to the caller**. This contract also holds the address of the current Logic Contract.
 
 The process of upgrading involves deploying a new logic contract and updating the address in the proxy contract. This way, the state remains consistent, while the logic can be upgraded. 
 
@@ -229,7 +229,7 @@ Also pay attention that when you use `delegatecall` for update values in the UUP
 <p align="center"><img height="175" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Puzzle%20Wallet/src/UUPS_upgradability.png"></p>
 
 
-What is more, this feature can be manipulated by hackers to trigger a storage collision in the target contracts. Shortly, using `delegatecall` can be risky because it executes another contract's code in the context of the calling contract, which can lead to unexpected behaviour if not used correctly.
+What is more, this feature can be manipulated by hackers to **trigger a storage collision** in the target contracts. Shortly, using `delegatecall` can be risky because it executes another contract's code in the context of the calling contract, which can lead to unexpected behaviour if not used correctly.
 
 If you are more interested in using delegatecall cause of critical weaknesses, check Halborn's article [from here](https://www.halborn.com/blog/post/delegatecall-vulnerabilities-in-solidity).
 
