@@ -408,6 +408,10 @@ contract Attack {
 }
 ```
 
+Actually, it just codes the form of what we talked about. Briefly, it will be `proposeNewAdmin` and add itself to the white list. After that, we will create our zipped array called `multicall_data[]` and push our encoded deposit() function selector payload to the first index. 
+
+Next, we will create a parameter array and push our defined payload to the first index again. Later, push the second payload, which calls the `multicall()` function again with the first payload, to the second index. In this way, we passed the prevention. Finally, it will move reentrancy and set the `maxBalance` as the new admin's address. Shall we start to attack?
+
 Deploy the attack contract with sending 0.001 ether. See transaction [on etherscan.](https://sepolia.etherscan.io/tx/0x2da8bb4ebf2d5d08fb66fb35243b48e32291ee1e1fa3d4593bf2b3cf6926cb79)
 
 Check the owner of the `PuzzleWallet` contract.
