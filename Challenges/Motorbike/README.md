@@ -141,26 +141,93 @@ The `Engine` contract is the implementation contract meant to be used with the `
 
 This set of contracts implements a basic upgradeability pattern using EIP-1967, where a proxy contract (`Motorbike`) delegates calls to an implementation contract (`Engine`). The `Engine` contract can be upgraded by an authorized upgrader using the `upgradeToAndCall()` function. This enables the contract's logic to be upgraded while retaining its storage and state.
 
-##	ERC-1967
+##	EIP-1967
+
+ERC1967 is a standard for upgradeable smart contracts using proxy patterns in the Ethereum ecosystem. The ERC1967 Proxy allows for the separation of the contract's logic and storage, enabling contract upgrades without disrupting the contract's state or requiring users to interact with a new contract address.
+
+In the traditional smart contract deployment model, upgrading a contract requires deploying a new contract and migrating the data and functionality from the old contract to the new one. This process can be complex and may require users to update their interactions with the contract.
+
+With the ERC1967 Proxy, the contract logic is stored in a separate implementation contract, while the proxy contract acts as a transparent intermediary between the user and the implementation contract. The proxy contract delegates function calls to the implementation contract, allowing for seamless upgrades without changing the contract address.
+
+When an upgrade is needed, a new implementation contract is deployed, and the proxy contract is updated to point to the new implementation. The proxy contract retains the same address, and all interactions with the contract continue to go through the proxy, which then forwards the calls to the new implementation. This upgradeability feature provided by the ERC1967 Proxy is beneficial in scenarios where contracts need to evolve over time, fix bugs, or add new features without disrupting existing users or requiring them to update their interactions.
 
 ## Uninitialized UUPS Proxy Implementation
 
+The Initializable contract is a utility contract provided by the OpenZeppelin library that helps in initializing contract state variables. It is often used in upgradeable contracts where the state variables need to be initialized during the deployment of a new version of the contract.
+
+The Initializable contract defines a single function called `initialize()`, which is meant to be called only once immediately after the contract is deployed. This function is responsible for initializing the state variables of the contract.
+
+By using the Initializable contract, you can separate the initialization logic from the contract's constructor. This is important because in upgradeable contracts, the constructor is only executed once during the initial deployment, and subsequent upgrades do not trigger the constructor again. Therefore, any state variables that need to be initialized in subsequent upgrades should be handled by the `initialize()` function instead.
+
+
+The reason why this process is done immediately in implementation contracts is due to the poorly structured requirement found in the `initializer()` function in the `Initializable` contract. If the implementation contract does not initialized quickly, the attacker will call the `initializer()` function. After then, he may skip some requirements or enable to call some functions unauthorized. 
+
+As you can see from the code above, the `initializing` variable has been defined. When you define a bool variable without any assigned value, it will be the default value which means it will be false. 
+
+In the requirement, unless called the function, `initializing || isConstructor() || !initialized` condation always returns true because of the `initialized` variable's value is false and `!initialized` is true.  
+
+```solidity
+bool private initialized;
+
+  /**
+   * @dev Indicates that the contract is in the process of being initialized.
+   */
+  bool private initializing;
+
+  /**
+   * @dev Modifier to use in the initializer function of a contract.
+   */
+  modifier initializer() {
+    require(initializing || isConstructor() || !initialized, "Contract instance has already been initialized");
+
+    bool isTopLevelCall = !initializing;
+    if (isTopLevelCall) {
+      initializing = true;
+      initialized = true;
+    }
+
+    _;
+
+    if (isTopLevelCall) {
+      initializing = false;
+    }
+  }
+
+```
+
+More about this topic, you might check CertiK's article [from here](https://www.certik.com/resources/blog/FnfYrOCsy3MG9s9gixfbJ-upgradeable-proxy-contract-security-best-practices).
 
 # Subverting
+
+In this challenge, Ethernaut wants us to selfdestruct the `Engine` contract. The possible way is to call the `upgradeToAndCall()` function with the attack contract's address and the exploit function's signature. Thus, we can detonate the contract by calling the function using the selfdestruct method in the attack contract with the delegatecall. Remember, delegatecall uses low-level interaction but impacts to caller's contract.
+
+However, we need to be upgrader to do this plan. To be an upgrader, we must call the `initialize()` function by passing the `initializer` modifier from the `Engine` contract. As we learned from the previous part, there may be some uninitialized functions :) Let's check!
+
+
+For this reason, we should find the `Engine` contract's address at first. Genarally, the logic contracts store of the proxy contract's address in the randomize storage slots with the `_IMPLEMENTATION_SLOT` variable. Also, it says it refers to `eip1967.proxy.implementation` in the command line. So, we must find this proxy's address with the given slot's pointer.
 
 ```js
 address = await web3.eth.getStorageAt(instance, "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc")
 '0x000000000000000000000000c886bb58a9ef8f390296cb8ad0529c0f00b13155'
 ```
 
+For make it clear the address, delete zeros.
+
 ```js
 address = '0x' + address.slice(-40)
 '0xc886bb58a9ef8f390296cb8ad0529c0f00b13155'
 ```
 
+When we searched this address in the etherscan, we realized that this address belongs to a contract.
+
 <p align="center"><img width="400" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Motorbike/src/contract.png"/></p>
 
+Then, in the Remix IDE, we can check the upgrader's value thanks to interfaces. It is not defined. It shows that the motorbike didn't call `initialize()` function. So, we can pass this requirement and be upgrader when we call the `upgradeToAndCall()` function. 
+
 <p align="center"><img height="450" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Motorbike/src/upgrader.png"/></p>
+
+
+After all, we can pass on to the attack contract. Let's see it!
 
 
 ```solidity
@@ -183,6 +250,8 @@ contract Attack {
     }
 }
 ```
+
+Shortly, the `IEngine` helps us to view `Engine` contract's value. Then, in the signature() function, we get the attack() function's signature for use when send transaction to the contract. Finally, the attack() function will selfdestruct the `Engine` contract. Time to hack!
 
 Deploy the attack contract and get the signature of our attack() function. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0xdd3a50c58686e7327229a23ef87ed7afebe75f905180a96978e2aa58beb52c03).
 
@@ -218,7 +287,9 @@ const data = web3.eth.abi.encodeFunctionCall(_function, param);
 await web3.eth.sendTransaction({from: player, to: address,data: data})
 ```
 
-See the transation [on etherscan](https://sepolia.etherscan.io/tx/0xb12150f04808b3f9b93c68c1bb93a64b54c5b3bfe27c435322391ccac5d9d27e).
+Now we are upgrader. In the end, send the transaction to call `upgradeToAndCall()` with our attack contract's address and function's signature. See the transation [on etherscan](https://sepolia.etherscan.io/tx/0xb12150f04808b3f9b93c68c1bb93a64b54c5b3bfe27c435322391ccac5d9d27e).
+
+R.I.P. Engine, welcome next level!
 
 Ethernaut's message:
 
