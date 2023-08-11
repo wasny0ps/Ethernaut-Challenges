@@ -1,6 +1,6 @@
 <img src="https://ethernaut.openzeppelin.com/imgs/BigLevel26.svg">
 
-## Target Contract Review
+# Target Contract Review
 
 Given contract.
 
