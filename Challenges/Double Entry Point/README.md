@@ -217,6 +217,10 @@ The provided smart contracts form a comprehensive system for detecting and handl
 
 # Subverting
 
+```solidity
+
+```
+
 Ethernaut's message:
 
 >
