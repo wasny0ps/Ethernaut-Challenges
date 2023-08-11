@@ -215,7 +215,7 @@ The `DoubleEntryPoint` contract is an ERC20 token contract that delegates transf
 The provided smart contracts form a comprehensive system for detecting and handling potentially suspicious transactions. They showcase various aspects of token management, delegation, notification, and alerting within the Ethereum blockchain ecosystem. The contracts demonstrate the interaction between different components, enabling users to delegate transfers and receive notifications about transaction activity.
 
 
-## Subverting
+# Subverting
 
 Ethernaut's message:
 
