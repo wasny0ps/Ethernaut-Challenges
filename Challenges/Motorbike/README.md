@@ -82,7 +82,7 @@ contract Engine is Initializable {
 
     // Restrict to upgrader role
     function _authorizeUpgrade() internal view {
-        require(msg.sender == upgrader, "Can't upgrade");
+        require(msg.sender == upgrader, "Can not upgrade");
     }
 
     // Perform implementation upgrade with security checks for UUPS proxies, and additional setup call.
